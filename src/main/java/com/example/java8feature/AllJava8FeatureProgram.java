@@ -1,9 +1,6 @@
 package com.example.java8feature;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -13,9 +10,9 @@ public class AllJava8FeatureProgram {
     public static void main(String[] args) {
 
         // predicate example
-        int i =10;
+        /*int i =10;
         Predicate<Integer> predicate = a->a>i;
-        System.out.println(predicate.test(20));
+        System.out.println(predicate.test(20));*/
 
         // consumer example
         /*String str = "dheeraj";
