@@ -1,0 +1,223 @@
+
+Git configuration:
+========================================================================
+git config --global user.name "Dheeraj Kumar"
+git config --global user.email "dheeraj.kumar@partner.bmw.in"
+
+#########################################################################
+
+Intellij shortcuts:
+========================================================================
+.iml file = module file (used to combine different frameworks)
+.idea folder = configuration directory (configuration about the project ex: VCS history etc)
+ctrl+N = find java files 
+ctrl+Alt+O = removed usused imports
+ctrl+X = deletes whole line 
+shift+f6 = change variable names
+func + F8 = next line
+func + F7 = inside the method
+func + F9 = resume
+
+ctrl+Alt+L = format code
+ctrl+Alt+M = extracts method
+ctrl+Alt+Y = refresh
+Alt+Enter = assign to local variable
+
+ctrl+shift+/ = comment or uncomment multiple lines
+ctrl+/       = comment or uncomment single line
+ctrl+shift+F = find/search
+ctrl+shift+R = Replace
+
+
+
+Alt + F8 = evaluate the expression
+Alt + F9 = next debug point
+
+F8 = step over
+F7 = step into
+F9 = resume
+VM = -Dspring.profiles.active=dev
+
+##########################################################################
+
+Quarkus commands:
+==========================================================================
+application.properties
+	quarkus.http.port=9002
+
+maven compile and run command from IDE	
+	compile quarkus:dev
+	
+maven compile and run command from cmd
+	mvn compile quarkus:dev
+	
+building jar file to deploy on AWS
+	stop the application and do mvn clean install
+	
+##########################################################################
+
+AWS SAM cli commands:
+==========================================================================	
+1) Download sam cli
+2) open cmd prompt and type: aws configure
+3) provide secret keys
+4) goto your project directory target path	
+5) use below Sam cli command
+	sam deploy -t target\sam.jvm.yaml -g
+	
+##########################################################################
+
+AWS comman commands:
+==========================================================================
+
+To remove credentials from EC2
+ls ~/.aws
+rm ~/.aws/config
+rm ~/.aws/credentials
+
+aws s3 ls
+aws s3 ls bucket-name
+mkdir /app
+cd /app
+aws s3 cp s3://ec2-s3-example/ur jar name .
+
+sudo netstat -plten |grep java
+kill -9 processId
+
+curl -X GET http://localhost:8080/allUser
+
+sudo su
+yum update -y
+yum install httpd
+systemctl start httpd
+systemctl enable httpd
+echo "Hello World" > /var/www/html/index.html
+ 
+curl http://169.254.169.254/latest/meta-data
+curl http://169.254.169.254/latest/meta-data/ami-id
+curl http://169.254.169.254/latest/meta-data/hostname
+curl http://169.254.169.254/latest/meta-data/instance-id
+curl http://169.254.169.254/latest/meta-data/instance-type
+ 
+curl http://169.254.169.254/latest/dynamic
+curl http://169.254.169.254/latest/dynamic/instance-identity
+curl http://169.254.169.254/latest/dynamic/instance-identity/document
+ 
+curl -s http://169.254.169.254/latest/dynamic/instance-identity/document > /var/www/html/index.html
+
+###############################################################################
+
+sonar excluison in pom:
+===============================================================================
+    <properties>
+        <sonar.coverage.exclusions>**/LambdaFunction.java</sonar.coverage.exclusions>
+    </properties>
+	
+###############################################################################
+
+Cloud watch query commands:
+===============================================================================
+
+filter @message like /OpenSearchException/ # same filter the CW alarm uses
+| filter @message like /DCS/ # this schema is broken anyways
+| filter @message not like /bmw.esocrm.EndCustomer.v1/ # this schema is broken anyways
+| sort @timestamp desc
+
+filter @message like /OpenSearchException/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /Exception/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /DVSES-SC-002/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /DVSES-PO-003/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /bmw.dvssdcstradein.TradeInInteraction.v1+4+0000029828.json/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /DVSES-SC-005/ # same filter the CW alarm uses
+| filter @message not like /DCSUserInteraction/ # this schema is broken anyways
+| sort @timestamp desc
+
+filter @message like /bmw.dvssdcs.DCSUserInteraction.v1+5+0000454915.json/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /DVSES-PT-011/ # same filter the CW alarm uses
+| filter @message not like /extraneous key \[javaType\] is not permitted/ # known bug DVSAN-2310
+| filter @message not like /order_cancel_confirmed.schema.json/ # this schema is broken anyways
+| sort @timestamp desc
+
+filter @message like /Deperso Lambda Execution Invoked/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /ERROR/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+filter @message like /ERROR/ # same filter the CW alarm uses
+| sort @timestamp desc
+
+################################################################################
+
+Opensearch/Elasticsearch Kibana query:
+================================================================================
+GET /_cat/indices?v
+
+GET /_cat/indices?h=index
+
+GET /dvs-es-gcdm.2023.118/_search
+
+GET /dvs-es-trade-in.2023.114/_search
+{
+  "query": {
+    "match": {
+      "vehicleValuationId":"7eecb721-e077-4805-9185-a9e626beedd2"
+    }
+  }
+}	
+
+
+GET /dvs-es-trade-in.2023.114/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+                {"match": {
+                  "vehicleValuationId": "7eecb721-e077-4805-9185-a9e626beedd2"
+                  
+                }},
+                {"match": {
+                  "type": "TRADE_IN_MODIFIED"
+                  
+                }}
+            ]
+        }
+    }
+}
+
+GET /dvs-es-trade-in*/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+                {"match": {
+                  "vehicleValuationId": "7eecb721-e077-4805-9185-a9e626beedd2"
+                  
+                }},
+                {"match": {
+                  "event.data.vehicleValuation.valuationDate": "2023-04-24T11:35:26.115Z"
+                  
+                }}
+            ]
+        }
+    }
+}
+
+
+############################################################################
+
+kill port no
+netstat -ano | findstr :8080
+taskkill /PID portno. /F

@@ -1,0 +1,604 @@
+﻿Introduction:
+
+Hi I am Dheeraj Kumar.
+I have 8+ years of IT experience working on Java, Microservices, and AWS.
+I have worked on many domains like (telecom, Backup&storage, Retails&Logistics, Banking etc.)
+Recently I worked with NRG Reliant i.e Natural Resource Energy.
+there my role was:
+Migration of existing services on cloud.
+creation of AWS lambda.
+integration of various AWS services.
+
+About Project
+Reliant is a web application where customer buy electricity plans. the first thing customer needs to do they have to enrolled
+themselves and select the electricity plans. This process generates enrollment id and validates the customer inputs based on
+the electricity plan selected by the customer.
+
+Authentication:
+User login with userId and password
+Authentication service will be called, this service will validate user credentials in Oracle DB.
+If validation is successfful then OAuth(open authorization) server will create and assign token to the user requests(in header)
+and going forward this token will be used for accessing the resources.
+
+Authorization:
+There are many ways to do authorization like (API keys, IAM Role, Lambda authorizer etc.)
+In our project I have used Lambda authorizer.
+Let's suppose user wants to update the profile, so first we have to check whether this user is authorized for a particular
+resource or not. and the flow will be:		
+
+            Resources
+		    and
+		    methods       Verify token from request header by calling OAuth server and returns IAM policy.
+request -> Apigateway <-> LambdaAuthorizer
+          	  |
+		   Lambda-backend-service
+              |
+           Dynamo DB	
+		   
+1) user sends a request to Apigateway.
+2) Apigateway calls LambdaAuthorizer.
+3) LambdaAuthorizer verify the token from the request header by calling OAuth provider and returns the IAM policy.
+4) Apigateway used that IAM policy and allow users to access the backened lambda services.
+        If caching is enabled in the authorizer settings, 
+        API Gateway also caches the policy so that the Lambda authorizer function doesn't need to be invoked again.
+for more information: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html 		   
+
+Dynamo DB:
+1) It's a No-sql database.
+2) Data store as a key-value pair.
+3) Scalable based on the huge amount of data.
+4) No hardware porvisioning is required.
+
+Challenges on Migration of legacy services on cloud:
+1) Data storage
+In legacy application we have used oracle or sql database, so here we have to take care of the hardware provisioning based on
+amount of the data. bcz these database are not scalable.
+But On cloud no need to think about the hardware or infratructure thing, also cloud servics are scalable based on the amount
+of data. here we have migrated from SQL database to Dynamo DB.
+
+2) Cost optimization
+In Legacy application every time our instaces/nodes are running, it doesnot depends on the traffic, so the cost is high bcz
+many instances are running.
+But on cloud here we have scalable services which will increase/decrease the instances based on the traffic. so cost is less.
+here we have used lambda provisioning for scalability.
+ 
+3) Monitoring higher env
+Initially we have to open each services logs and we have to check which services is having a issue,
+but after Grafana monitoring tool its too easy to monitor each and every services.
+ 
+
+1) HashMap implementation                             (Complete)
+2) Difference between Iterator and Enumerator         (Complete) 
+5) Thread Max priority				                  (Complete)
+6) Anonymous class, Local inner class, static nested class in java 			      (Complete)
+7) Comparable and comparator
+10) Exception Handling  (Complete)
+12) Difference between Arraylist and LinkedList?
+13) Design pattern (Factory DP, Singelton DP, Prototype DP)
+
+Database:
+
+1)   what is join?
+Ans: join means, it will join two or more tables based on the matching columns and create a resultant output table.
+     there are two types of Joins:	
+	Inner join
+	outer join
+
+	inner join: it will join two table's based on the matching data of the column and create new resultant table.
+	outer join: we have two types of outer join.
+		left outer join
+		right outer join
+	
+		left outer join: it will collect all data from left side(first table) if data not matched with right side(second table) it will assign null values.
+		right outer join: it will collect all data from right side(second table) if data not matched with left side(first table) it will assign null values.
+
+
+
+2) what is indexing?
+Ans: Indexing is just like to provide speed up to database engine to retrieve data from the database based on the column, its just like a reference pointer for 
+     example (in book we have a reference index on first page. ) it speed-up the process for where and select clause, but its slow down for insert and update statement
+     syntax: Create index index_name on table_name(column_name);
+     type of index:
+     1. unique index (only one column)
+         CREATE UNIQUE INDEX index_name on table_name (column_name);
+     2. composite index (multiple column)
+         CREATE INDEX index_name on table_name (column1, column2);
+     3. implicite index (automaticaly created by the database server when object is created)
+     4. Drop index (An index can be dropped using SQL DROP command. Care should be taken when dropping an index because performance may be slowed or improved)
+        DROP INDEX index_name;
+
+3) what is Casceding?
+Ans: Which means that when a Parent row is deleted (killed), no orphan row should stay alive in the Child table. 
+     All children of the parent row are killed (deleted), too. If any of these children has grandchildren (in another table through another foreign key) 
+	 and there is ON DELETE CASCADE defined, these should be killed, too (and all descendants, as long as there is a cascade effect defined.
+
+4) Difference between Primary key and Unique key?
+    Primary key:
+	1. cannot contains null values.
+	2. primary key is related with another table as a foreign key.
+    Unique key:
+	1. contains null values.
+	2. unique key is not related with another table as a foreign key.
+    Foreign key:
+	1. accepts more than one null values.
+	2. we can have one or more than one foreign key in a table.	
+	
+5) Difference between Drop,Truncate and Delete
+Ans: Drop: deletes the whole table along with schema, once done it cannot rollback.
+     Truncate: deletes the data of the table.
+	 Delete: deletes a particular record.
+
+6) can we serialize singleton class and it's instance?
+Ans: If singleton class is Serializable, you can serialize the singleton instance. Once it is serialized, 
+you can deserialize it but it will not return the singleton object.
+To resolve this issue, you need to override the readResolve() method that enforces the singleton. 
+It is called just after the object is deserialized. It returns the singleton object.	
+
+7) what is wrapper classes/ what is boxing and unboxing?
+Ans: conversion of primitive datatype to object/wrapper type i.e boxing.
+     conversion of object/wrapper type to primitive type i.e unboxing.
+     After jav 1.5 it provides automaticaly conversion mechanism.
+
+8) What is serialization and deserialization? where it can be used? can we serialize static data member and function? can subclass is also 
+   serialized if parent is serialized? how can we make a class is serializable? while deserialization of class does serializable interface 
+   need to be implements?
+Ans: conversion of object to a stream/flat file i.e serialization.
+     conversion of flat file/stream to a object i.e deserialization.
+     it is used in Hibernate, EJB, JMS
+     No we cannot serialize static data member and member function, bcz static is class level variable not object level.
+     yes, if parent is serialized subclass also serialized.	
+     we need to implements serializable interface.
+     No, while deserialization no need to implements serializable interface.
+
+	  
+13) when you are going to use Arraylist and when LinkedList?
+Ans: LinkedList- Storing and deleting of data. internally usess doubly linked list
+     ArrayList- searching of data. internally usess dynamic array
+	  
+15) Can we have constructor in Abstract class?
+Ans: Yes
+
+what is the use of constructors in abstract class, if we cannot create the object of abstract class?
+  Constructor is used for initialization, once subclass will extends the abstract class, and will create
+  the object of subclass on that time it will call parent class constructor with the help of super();
+  
+  public abstract class LowesExample1 {
+	
+	private int x;
+	private int y;
+	
+	public LowesExample1(int x, int y) {
+		this.x =x;
+		this.y =y;
+	}
+	
+	public abstract void display();
+	
+	public void show() {
+		System.out.println("non abstract method");
+	}
+
+}
+
+public class LowesExample2 extends LowesExample1{
+	
+	public LowesExample2(int x, int y) {
+		super(x, y);
+		System.out.println(x+y);
+	}
+
+	public static void main(String[] args) {
+		LowesExample1 lowesExample2 = new LowesExample2(1,3);
+		lowesExample2.display();
+		lowesExample2.show();
+	}
+
+	@Override
+	public void display() {
+		System.out.println("abstract implemented methods");
+	}
+
+}
+
+output: 4
+   
+
+16) Can we create an Abstract class without any abstract method?
+Ans: Yes
+
+Q. What is functional interface
+Ans: A interface which is having only one abstract method is called functional interface.
+
+Q. how many default and static method we can create in functional interface?
+Ans: 1 or more than 1
+
+Q. String str = new String("Hello") how many objects will be created?
+Ans: 2 objects (1 in heap and 1 in string constant pool)
+
+Q. Can we override default methods? and how
+Ans yes
+    we can call that method with the help of super.
+	interfacename.super.interfacemethodname
+	
+Q. what is the use of functional interface/ lambda expression
+Ans: to pass a block of code to methods or objects. perfoming actions.
+     
+
+Q. How to create immutable class in java?
+Ans: Make class as final
+     make instanceVariable/datamembers as final
+	 initialize instance variable inside constructor.
+	 donot create setters only create getters.
+	 
+  public final class Employee{  
+	final String pancardNumber;  
+  
+	public Employee(String pancardNumber){  
+	this.pancardNumber=pancardNumber;  
+	}   
+	public String getPancardNumber(){  
+	return pancardNumber;  
+	}   
+} 
+
+Q. when will you go for interface and abstract?
+Ans: based on requiremts:
+     if you want to only extends one class go for Abstract. 
+	 (A Class can only extends 1 class and implements many interfaces)
+	 if you want to implements more than one interface go for interface.
+	 (Interface only extends many interfaces.)
+	 
+Q. Contract of hashcode
+Ans: 1) If two objects are equal, then they must have the same hash code. 
+     2) If two objects have the same hash code, they may or may not be equal. 
+
+17) what is difference between concurrent HashMap and HashTable?
+Ans: both are thread safe, but main difference is:
+     HashTable: make lock for all the Objects.
+	 ConcurrentHashMap:it will divide the code in different segments, and then make the lock for few objects.
+	 
+18)	 Aggregation :
+	 has-a relationship
+	 entities are not dependent to each other.
+	 A Institute can have many students, but viceversa is not possible.
+	 
+	 Composition:
+	 has-a relationship
+	 entities are dependent to each other.
+	 Vehicle has a engine.
+	 
+19) Fault tolerance
+    Ex: explain Hystrix
+	
+20) Which Collection maintains insertion order and doesn't allow duplicates
+	LinkedHashSet
+	
+21) What is Collision
+    Collision means two object have the same hashcode, and both the key wil try to store in the 
+	same bucket.
+	Resolution: Collision chaining, use equals method.
+	
+22) Different Bean scopes in spring
+	Singleton
+	Prototype
+	Session
+	Request
+	Global Session
+	
+23) Autowiring modes
+	ByName
+	ByType
+	ByContructor
+	No
+	
+*)Difference between @Configuration and @Component
+  @Configuration: Used to declare multiple beans, so that spring-context will know this is the class where all the beans are
+                declared.
+  @Component:     Used for class-path scanning, auto-detection of the packages and classes.
+
+*)What is the use of @Qualifier annotation
+  @Qualifier:     It resolves the conflict of similar bean definition.
+
+*)Connection between two datasource in springboot
+  application.properties
+#first db
+spring.datasource.url = [url]
+spring.datasource.username = [username]
+spring.datasource.password = [password]
+spring.datasource.driverClassName = oracle.jdbc.OracleDriver
+
+#second db ...
+spring.secondDatasource.url = [url]
+spring.secondDatasource.username = [username]
+spring.secondDatasource.password = [password]
+spring.secondDatasource.driverClassName = oracle.jdbc.OracleDriver
+
+  create two datasources
+@Bean
+@Primary
+@ConfigurationProperties(prefix="spring.datasource")
+public DataSource primaryDataSource() {
+    return DataSourceBuilder.create().build();
+}
+
+@Bean
+@ConfigurationProperties(prefix="spring.secondDatasource")
+public DataSource secondaryDataSource() {
+    return DataSourceBuilder.create().build();
+}	
+
+    When you want to use any of the database use @Qualifier
+@Qualifier("spring.secondDatasource")	
+
+*) what is terraform
+   1) Its an infrastructure as a code similar to AWS cloudformation that allow us to create, update and version our AWS services.
+   2) Visibility into changes before they actually happen.
+   3) Built-in graphing feature to visualize the infrastructure.
+   4) Ability to break down the configuration into smaller chunks for better organization, re-use, and maintainability.
+   
+*) what is Apache Kafka
+   Its a distributed event driven service.
+        stores large number of messages
+		allows sevices to produce and consume the messages.
+	
+24) What all are 12 Factor of Microservices
+	Codebase: ex use version control for microservices
+	dependency
+	build, release, run
+	config
+	port binding
+	logs
+	monitoring
+	Concurrency
+	Disposability
+	Backing services
+	process
+	dev/prod integration
+
+25) Functional vs Non functional requierements
+                   OR
+    Behavioural vs Non Behavioural requierements	
+    Functional: what the System should do, what will be input and what the service will provide the output.
+    Non-Functional: How the System Work.
+                    Performance
+				    Security
+					Scalibility
+					Maintainbility
+					portablity
+					
+26) What are the Transaction propagation provided by spring boot?
+Ans: Required
+	 Requires_New
+	 Supports
+	 Not_supported
+	 Never
+	 Mandatory
+	  syntax: @Transactional(propagation = Propogation.Required)
+	 
+27) What are the transaction isolation provided by spring boot?
+Ans:     Read_Committed
+	 Read_Uncommitted
+	 Repeatable_read
+	 Serializable
+	  syntax: @Transactional(isolation = Isolation.Read_Committed)
+	  
+28) Difference between Put and Patch?
+Ans: Put: replace the whole json
+     Patch: replace the particular filed
+	 
+29) what is stream?
+    Stream provides a pipeline where we can perform different operations. Stream doesnot modify actual source,
+    whenever we perform any operation it will return a new stream of data.
+
+30) Diff between stream and parallel stream?	
+    Stream perform sequentially, single thread will process the opertion.
+	Parallel Stream perform parallely, multiple thread will process the operation.
+					
+==============================================================================================================
+                 Java Programs:
+					
+26) create an array and find out 2nd largest number
+Ans: List<Integer> list = Arrays.asList(6,9,3,7,4,8)
+     list.sorted((o1,o2)->o2.compareTo(01)).limit(2).skip(1).forEach(System.out::println)
+	 
+27) write a program to find the repeated character of the string.
+Ans: public static void main(String[] args) {
+		String str = "india";
+		for (int i = 0; i < str.length(); i++) {
+			boolean found = true;
+			for (int j = i + 1; j < str.length(); j++) {
+				if (str.charAt(i) == str.charAt(j)) {
+					found = false;
+					break;
+				}
+			}
+			if (found) {
+				System.out.println("Number is: " + str.charAt(i));
+				break;
+			}
+		}
+	}
+	
+28) write a java program to read a file
+Ans: try {
+			
+			FileReader fileReader = new FileReader("C:\\Users\\admin\\Desktop\\Winwire\\f1.txt");
+			BufferedReader br = new BufferedReader(fileReader);
+			String str;
+			while((str=br.readLine())!=null) {
+				System.out.println(str);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+				
+				
+				AWS: S3
+			===========
+1) what are the stoarage classes in S3?
+   S3 Standard
+   S3 one zone
+   S3 Intelligent tiering
+   Amazon Glacier
+   Amazon Glacier Deep archiving.
+   
+2) what is frequent and Infrequent data access?
+   Frequent: daily basis
+   Infrequent: once in a month
+   
+3) what is versioning in S3?
+   Versioning means keeping multiple variants of an object in the same bucket. 
+   You can use versioning to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. 
+   With versioning, you can easily recover from both unintended user actions and application failures.
+   
+4) what is object lock in S3?
+   Create a new bucket with Object Lock enabled.
+   
+5) what is ACL (Access Control List)
+   Grant basic read/write permissions to other AWS accounts.
+   
+6) what is CORS (Cross Origin Resource Sharing)
+   It usess in client web applications where resources from one domain will interact with the resources in a different domain.
+   
+                  AWS Lambda
+				=============================  
+1) what is AWS lambda and serverless?
+   AWS lambda: its a compute service, an event driven serverless computing platform provided by AWS.
+   Serverless: Pay for use
+               No need to worry about the servers.
+			   
+2) what is horizontal and vertical scalling in AWS lambda?
+   Horizontal: increase the memory size.
+   vertical: increase the number of instances. 
+
+3) Max exection time in lambda
+   5 min, but we can configure 15 min also.
+
+4) how bill will be generate for lambda function?
+   based on how much memory used and the time duration for the execution.
+
+5) how versioning works in aws lambda?
+   Lambda creates a new version of your function each time that you publish the function. 
+   The new version is a copy of the unpublished version of the function. 
+   Lambda doesn't create a new version if the code in the unpublished version is the same as the previous published version. 
+ 
+6) Bydefault Concurrency/unreserved concurrency limit : 1000 (we can change it with AWS support team)
+             reserved concurrency limit : anything below 1000
+   provisioned concurrency (before invoking the lambda code is loaded and container is ready to run) more costly
+			 
+7) what is throttling?
+   number of req exceeds concurrency limit. req>1000
+ 
+8) what is cold and warm start in AWS Lambda?
+   cold start: time between invoking of lambda and running of lambda.
+               lambda lifecycle: invoke->micro container created->loading lambda code->running lambda
+   warm start: provisioned concurrency (before invoking the lambda, code is loaded and container is ready to run)
+   
+
+      
+
+                    AWS API Gateway
+                =====================================
+1) What is Api gateway?
+   used for creating, monitoring, and publishing API's.		
+
+2) what are the type of API we can create?
+   Http api (CORS support) works based on protocols, some rules are defined based on that it will work.
+   Rest api (complete control over the req and response) architecutral style.
+   Rest api private (accessable only with in a VPC)
+   websocket api (real time use application such as: chatbox, or dashboards) 
+
+3) steps to create Api
+   create api->choose api types->create resource->create method(put,post,get etc)->integrate with(lambda, vpc, etc)->deploy api
+   then will get url to invoke.
+
+4) what is throttling?
+   request per second
+   10000 req/ second
+   5000 req at a time. burst ratio.
+
+                      Redis
+                ===============================================
+1) what is Redis (Remote dictionary server)
+   Redis is an open source, fast, inmemory, key-value data store.		
+
+                      SNS and SQS
+               ================================================
+1) Diff SNS and SQS
+SNS is a Pub/Sub message service.
+It push messages to all the subscribers.
+SNS does not persist the messages, its delievers to the subscriber and delete the message.
+When to use: For Christmas Eve send the offer details to all the subscribers.
+
+SQS is a distributed message service.
+It works on Pull mechanism, Reciever has to pull the messages one by one. at a time only one consumer.
+SQS persist the messages, 
+When to use: For a batch job, after each jobs completion messages are stored to the SQS and backend-services pull the messages 
+             one by one.
+Max polling/wait time is 20 Seconds.
+Default hold time for a single message in SQS = 4 days, we can make it to 14 days also.
+
+                       Step Functions
+		       ================================================
+Step functions manages/orchestrate multiple AWS services to complete the task.
+It provides the visual workflow editor where output of one service is the input of another service.
+If any one of the service got failed, then its having a automatic retry, triggering and tracking capabilities. 	
+
+                       Reactive Programing
+               ================================================
+Reactive programing means Asynchronous and Non-blocking process.
+For ex: users sends a request that goes to the database, fetch some results and provide the results to the users.
+        But whenever User-1 sends a request in background Thread-1 will be called and sends the request to DB.
+            again    User-2 sends a request in background Thread-2 will be called and sends the request to DB.		
+            again    User-3 sends a request in background Thread-3 will be called and sends the request to DB. 
+	   like that all Threads are busy with the database. and the max Thread pool size is 20.
+		Now suppose  User-21 sends a request then the request will be failed bcz all Threads are busy and max size is 20.
+		So, to solve this type of situation Reactive programing occurs.
+		      here   User-1 sends a request in background Thread-1 will be called and it will not wait for DB response,
+			         it will tell DB just send a event once your process is done. and Thread-1 is ready to take another
+					 User request.
+					 
+
+		
+                Cloud
+         ===========================================				
+1) What is cloud?
+   On demand services over the internet is called cloud. and managing those services/resources is called computing.
+   
+2) what are the types of Cloud
+   Deployment model: Public cloud -> Access for all (Gmail)
+					 Private cloud -> only for private networks of the organization (Outlook).
+					 Hybrid cloud -> combination of both  (internet cafe)
+	
+	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator..
+	                 PAAS: Amazon web services, used by software developers..
+					 SAAS: Gmail, Goodle drive, directly used by everyone.
+
+3) differnece between cloud computing and on premises? advantages and disadvantages?
+   On premises:- Physical server or softwares which is located/installed inside the organization.
+                 Ex: unix/linux box, windows etc..
+				 
+   Cloud computing: Virtual servers or software services provided by third party/vendor through web application.
+                 Ex: Gmail, Google drive, (no need to install directly run on browser) 
+================================================================
+				 
+1) Difference between @pathVariable and @pathParam
+Both are used to access parameter from URI template.
+@pathParam: is from JAX-rs, it works only for Rest.
+@pathVariable: is from spring. so it works both spring mvc and Rest.
+
+2) Difference between @Controller and @RestController	
+Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBody annotation as well.
+
+     @Controller
+     @ResponseBody
+     public class MyController { 
+	 }
+	 
+     @RestController: combination of both @Controller and @ResponseBody annotation.	
+	 
+     @RestController
+     public class MyRestController { 
+	 }	 
+
+				 
