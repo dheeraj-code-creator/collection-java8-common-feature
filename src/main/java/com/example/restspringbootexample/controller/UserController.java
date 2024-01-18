@@ -18,7 +18,7 @@ import com.example.restspringbootexample.repository.UserRepository;
 import com.example.restspringbootexample.service.UserService;
 
 @RestController
-@RequestMapping(value = "/userinfo")
+@RequestMapping(value = "/restspringbootexample")
 public class UserController {
 
 	@Autowired
