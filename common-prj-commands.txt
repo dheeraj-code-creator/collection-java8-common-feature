@@ -10,32 +10,26 @@ Intellij shortcuts:
 ========================================================================
 .iml file = module file (used to combine different frameworks)
 .idea folder = configuration directory (configuration about the project ex: VCS history etc)
-ctrl+N = find java files 
+ctrl+shift+N = find java files 
 ctrl+Alt+O = removed usused imports
 ctrl+X = deletes whole line 
 shift+f6 = change variable names
 func + F8 = next line
 func + F7 = inside the method
 func + F9 = resume
+Alt + F8 = evaluate expression
+Alt + Enter = assign to local variable
 
 ctrl+Alt+L = format code
 ctrl+Alt+M = extracts method
 ctrl+Alt+Y = refresh
-Alt+Enter = assign to local variable
+
 
 ctrl+shift+/ = comment or uncomment multiple lines
 ctrl+/       = comment or uncomment single line
 ctrl+shift+F = find/search
 ctrl+shift+R = Replace
 
-
-
-Alt + F8 = evaluate the expression
-Alt + F9 = next debug point
-
-F8 = step over
-F7 = step into
-F9 = resume
 VM = -Dspring.profiles.active=dev
 
 ##########################################################################

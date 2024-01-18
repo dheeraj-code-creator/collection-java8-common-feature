@@ -20,7 +20,7 @@ import com.example.restspringbootexample.service.UserService;
 @RestController
 @RequestMapping(value = "/userinfo")
 public class UserController {
-// autowired
+
 	@Autowired
 	private UserService userService;
 
@@ -30,7 +30,7 @@ public class UserController {
 	// For all users
 	@GetMapping(value = "/allUser", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUser() {
-		return userService.getListOfUser();
+ 		return userService.getListOfUser();
 	}
 
 	// For particular user
