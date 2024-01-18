@@ -9,7 +9,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>search-appication</artifactId>
+	<artifactId>collection-java8-common-feature</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>search-appication</name>
 	<description>Demo project for Spring Boot</description>

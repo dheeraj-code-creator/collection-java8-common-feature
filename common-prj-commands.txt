@@ -221,3 +221,9 @@ GET /dvs-es-trade-in*/_search
 kill port no
 netstat -ano | findstr :8080
 taskkill /PID portno. /F
+
+############################################################################
+                    Adidas
+############################################################################
+					
+adidas mail id: dheeraj.kumar@externals.adidas.com
