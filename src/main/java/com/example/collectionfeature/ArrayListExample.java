@@ -18,6 +18,10 @@ public class ArrayListExample {
         list.add(10);
         list.add("Surbhi");
 
+
+        System.out.println(list.size());
+        System.out.println(list.get(0));
+
         list.forEach(k-> System.out.println(k));
            // or
         list.forEach(System.out::println);
