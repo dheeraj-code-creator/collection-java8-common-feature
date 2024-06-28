@@ -1,0 +1,40 @@
+package com.example.java8feature;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class CompareTwoList {
+
+    public static void main(String[] args) {
+        List<String> firstList = Arrays.asList("123", "456", "567");
+        List<String> secondList = Arrays.asList("456", "123", "567");
+
+        // by java 8
+        boolean isEqual = secondList.stream().allMatch(firstList::contains);
+
+       //  boolean isEqual = firstList.containsAll(secondList);
+
+
+        // by java 7
+        /*boolean isEqual = false;
+        if(firstList.size()== secondList.size()){
+            for(String applicantValues: firstList){
+                if(secondList.contains(applicantValues)){
+                    isEqual = true;
+                }else{
+                    isEqual = false;
+                    break;
+                }
+            }
+        }else{
+            isEqual = false;
+        }*/
+
+        if(isEqual){
+            System.out.println("Both list having equal values: ");
+        }else{
+            System.out.println(" List are not equal");
+        }
+
+    }
+}
