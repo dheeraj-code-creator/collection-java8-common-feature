@@ -20,8 +20,7 @@ public class UserController {
 
 	@GetMapping(value = "/alluser", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<UserDto> getUserinfo() {
-		List<UserDto> finalResults = userService.getAllUserInfo();
-		return finalResults;
+        return userService.getAllUserInfo();
 	}
 
 }
