@@ -600,5 +600,18 @@ Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBo
      @RestController
      public class MyRestController { 
 	 }	 
+	 
+Exception:
+NoSuchBeanDefinitionException: No qualifying bean of type
+solution:
+You might need to add the following to the main app class:
+@ComponentScan(basePackages = "Package where the repository is located”)
+
+Looks like your repository is in a different packer and spring context is not able to pick it up when starting up.
+@ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
+	 
+	 
+	 
+	 
 
 				 

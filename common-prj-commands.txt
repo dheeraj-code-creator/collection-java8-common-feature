@@ -216,8 +216,171 @@ kill port no
 netstat -ano | findstr :8080
 taskkill /PID portno. /F
 
+
 ############################################################################
-                    Adidas
+               Performance appraisal points
 ############################################################################
-					
-adidas mail id: dheeraj.kumar@externals.adidas.com
+
+Quality of Delivery:
+1. Ensure timely completion of all deliverables with accuracy in implementation.
+2. More than 80% code coverage in integration and system testing
+3. Institutionalize tools for productivity & quality
+4. Usage of static code analyzers, security analyzers
+5. Minimize build failures due to integration issues and challenges
+ 
+Customer Satisfaction: 
+1. Higher Customer Satisfaction with 0 customer complaints.
+2. Project CSS of 85% and more.
+ 
+Learning, Self-Development and Soft-skills
+1.	Mentoring the next level of Technology experts and help them in their journey
+2.	Learn at least 2 new relevant technologies, language, frameworks and demonstrate expertise in them through certifications or project deliverables (relevant to the project)
+ 
+ 
+Design Goals
+1. No more than 3 high / critical severity review comments in design reviews per module .
+2. No more than 5% rework as a result of design inaccuracy and integration inaccuracy with other modules .
+3. No more than 3% rework as a result of internals application design or development within the module
+ 
+ 
+Personal Effectiveness:
+1. Limit schedule variance to between +/- 5% with respect to the baseline plan, for the assigned functionalities
+2. Proactively report any effort variance foreseen, accurately to the leads	
+
+	  
+
+#############################################################
+
+DB Queries
+
+SELECT COUNT(DISTINCT container.equipmentNumber) as continerOnWater  
+          FROM GISRefDataMgmt.CTContainerLineItems lineitems,  GISRefDataMgmt.CTContainers container  
+          WHERE distributionCenter IN (?)  
+                AND lineitems.journeyid = container.journeyid  
+                AND lineitems.equipmentNumber = container.equipmentNumber  
+                AND container.eta IS NOT NULL  
+                AND container.ata IS NULL  
+                AND container.deliveryFlag = 'N'  
+              UNION ALL   
+          SELECT COUNT(DISTINCT container.equipmentNumber) as availableAtPort  
+          FROM GISRefDataMgmt.CTContainerLineItems lineitems,  GISRefDataMgmt.CTContainers container   
+          WHERE distributionCenter IN (?)  
+                AND lineitems.journeyid = container.journeyid  
+                AND lineitems.equipmentNumber = container.equipmentNumber  
+                AND container.ata IS NOT NULL  
+                AND container.atainlandTerminal IS NULL  
+                AND container.deliveryFlag = 'N'  
+              UNION ALL   
+          SELECT COUNT(DISTINCT container.equipmentNumber) as customsBlocked  
+          FROM GISRefDataMgmt.CTContainerLineItems lineitems,  GISRefDataMgmt.CTContainers container  
+          WHERE distributionCenter IN ('SEF','UFF')  
+                AND lineitems.journeyid = container.journeyid  
+                AND lineitems.equipmentNumber = container.equipmentNumber  
+                AND container.customscode IS NOT NULL  
+                AND (container.deliveryFlag = 'N' OR container.deliveryFlag IS NULL ) ; 
+              UNION ALL   
+          SELECT COUNT(DISTINCT container.equipmentNumber) as availableAtInlandTerminal  
+          FROM GISRefDataMgmt.CTContainerLineItems lineitems,  GISRefDataMgmt.CTContainers container  
+          WHERE distributionCenter IN (?)  
+                AND lineitems.journeyid = container.journeyid  
+                AND lineitems.equipmentNumber = container.equipmentNumber  
+                AND container.atainlandTerminal IS NOT NULL  
+                AND container.deliveryFlag = 'N';
+               
+ 
+**************************************************************************************
+
+             
+ SELECT COUNT(DISTINCT container.equipmentNumber) as continerOnWater  
+          FROM  GISRefDataMgmt.CTContainers container
+          WHERE container.distributionCenters IN ('UFF','SEF')    
+                AND container.eta IS NOT NULL  
+                AND container.ata IS NULL
+                AND container.atainlandTerminal IS NULL
+                AND (container.deliveryFlag = 'N' OR container.deliveryFlag IS NULL )
+                 UNION ALL   
+ SELECT COUNT(DISTINCT container.equipmentNumber) as availableAtPort  
+          FROM  GISRefDataMgmt.CTContainers container   
+          WHERE container.distributionCenters IN ('UFF','SEF')   
+                AND container.ata IS NOT NULL  
+                AND container.atainlandTerminal IS NULL  
+                AND (container.deliveryFlag = 'N' OR container.deliveryFlag IS NULL )  
+              UNION ALL   
+SELECT COUNT(DISTINCT container.equipmentNumber) as customsBlocked  
+          FROM  GISRefDataMgmt.CTContainers container
+          WHERE container.distributionCenters IN ('UFF','SEF') 
+                AND container.customscode IS NOT NULL  
+                AND (container.deliveryFlag = 'N' OR container.deliveryFlag IS NULL )
+              UNION ALL   
+SELECT COUNT(DISTINCT container.equipmentNumber) as availableAtInlandTerminal  
+          FROM  GISRefDataMgmt.CTContainers container  
+          WHERE container.distributionCenters IN ('UFF','SEF')    
+                AND container.atainlandTerminal IS NOT NULL  
+                AND (container.deliveryFlag = 'N' OR container.deliveryFlag IS NULL ) ; 
+
+#########################################
+               
+SELECT * from GISDataMgmt.IBContainers WHERE uploadCycle ='2024-18' AND flow IN ('SEF');               
+
+#########################################
+
+SELECT COALESCE(WEEK(inWeek), inWeek) As week_number, 
+COUNT(*) As total  
+from GISDataMgmt.IBContainers WHERE uploadCycle ='2024-5' AND flow IN ('SEF')
+GROUP BY week_number ;
+
+#########################################
+
+SELECT container.*, lineitems.* 
+FROM GISRefDataMgmt.CTContainerLineItems lineitems,  GISRefDataMgmt.CTContainers container 
+WHERE distributionCenter IN ('UFF') 
+      AND lineitems.journeyid = container.journeyid
+      AND lineitems.equipmentNumber = container.equipmentNumber;
+    -- AND container.customsflag = '';
+     
+#########################################     
+     
+INSERT INTO GISRefDataMgmt.CTContainers 
+(equipmentNumber, carrier, vessel, voyage, totalcartons, totalunits, weight, volume, pod, eta, creationDate, createdBy, size)
+    values ('101c', '1cMSC', 'V1c', '1bVoyage', 11, 10, null, null, null, null, null, null , null);
+   
+#########################################   
+   
+INSERT INTO GISRefDataMgmt.CTContainerLineItems 
+(equipmentNumber ,polineitem, journeyid, item, itemDescription, division, distributionCenter, billOfLading, createdBy, creationDate)
+      VALUES ('101b','1bPOL',(select journeyid from GISRefDataMgmt.CTContainers WHERE equipmentNumber='101b' and voyage='1bVoyage'),
+              'item1b', 'desc1b', 'dev1b', 'SEF', null, null, null);
+             
+#########################################
+## container cannot delete ####
+            
+SELECT DISTINCT app.appointmentId ,app.equipmentNumber, app.appointmentStatus , container.deliveryFlag
+  FROM GISDataMgmt.Appointments app, GISRefDataMgmt.CTContainers container
+  WHERE container.equipmentNumber IN ('APHU6739376', 'CMAU3355272') 
+  AND container.deliveryFlag = 'N'
+  AND app.equipmentNumber = container.equipmentNumber
+  AND app.appointmentStatus != 'Deleted';
+ 
+######################################### 
+ 
+UPDATE GISRefDataMgmt.CTContainers t1 SET t1.deleteFlag = 'DELETED', t1.voyage = CONCAT(t1.voyage,'_DEL'),
+   t1.lastModifiedDate = NOW() 
+   WHERE equipmentNumber IN ('XYZ12345', 'CMAU3407362'); 
+  
+#########################################   
+  
+UPDATE GISRefDataMgmt.CTContainerLineItems t1 SET t1.deleteFlag = 'DELETED', 
+   t1.polineitem = CONCAT(t1.polineitem,'_DEL'),
+   t1.lastModifiedDate = NOW() 
+   WHERE equipmentNumber IN ('APHU6739376', 'CMAU3355272');  
+  
+#########################################  
+  
+SELECT container.*, lineitems.* FROM  GISRefDataMgmt.CTContainers container 
+LEFT JOIN GISRefDataMgmt.CTContainerLineItems lineitems  ON container.journeyid  = lineitems.journeyid
+WHERE container.deliveryFlag = 'N'
+AND distributionCenters REGEXP ('SEF|UFF|Others');
+
+#########################################
+
+	  
