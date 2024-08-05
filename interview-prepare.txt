@@ -1,47 +1,91 @@
-﻿Introduction:
+1) HashMap implementation                             (Complete)
+2) Difference between Iterator and Enumerator         (Complete)
+5) Thread Max priority				                  (Complete)
+   Max: 10, Min: 1, Default: 5
+6) Anonymous class, Local inner class, static nested class in java 			      (Complete)
+7) Comparable and comparator
+10) Exception Handling  (Complete)
+12) Difference between Arraylist and LinkedList?
+13) Design pattern (Factory DP, Singelton DP, Builder DP, Prototype DP)
+14) Java 8 and 17 new features
+
+java 8:
+Predicate
+Consumer
+Function
+Stream
+Foreach
+Optional
+TryWithResource
+
+java 17:
+Switch Pattern Matching
+Sealed classes
+Record classes
+Text Blocks
+
+
+
+
+Difference between Iterator and Enumerator
+iterator: having both methods next() and remove.
+          We can change the existing collection while doing remove() method
+          if iterator will change the collection then its fine, if collection itselfs change the data
+              while doing iteration then will get ConcurrentModificationException.
+          Iterator is advance version of enumerator.
+
+Enumerator: Doesn't have remove() method.
+
+                 Java Programs:
+
+26) create an array and find out 2nd largest number
+Ans: List<Integer> list = Arrays.asList(6,9,3,7,4,8)
+     list.sorted((o1,o2)->o2.compareTo(01)).limit(2).skip(1).forEach(System.out::println)
+
+27) write a program to find the repeated character of the string.
+Ans: public static void main(String[] args) {
+		String str = "india";
+		for (int i = 0; i < str.length(); i++) {
+			boolean found = true;
+			for (int j = i + 1; j < str.length(); j++) {
+				if (str.charAt(i) == str.charAt(j)) {
+					found = false;
+					break;
+				}
+			}
+			if (found) {
+				System.out.println("Number is: " + str.charAt(i));
+				break;
+			}
+		}
+	}
+
+28) write a java program to read a file
+Ans: try {
+
+			FileReader fileReader = new FileReader("C:\\Users\\admin\\Desktop\\Winwire\\f1.txt");
+			BufferedReader br = new BufferedReader(fileReader);
+			String str;
+			while((str=br.readLine())!=null) {
+				System.out.println(str);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+################################################################################################
+
+Introduction:
 
 Hi I am Dheeraj Kumar.
-I have 8+ years of IT experience working on Java, Microservices, and AWS.
+I have 9.9 years of IT experience working on Java, Microservices, and AWS.
 I have worked on many domains like (telecom, Backup&storage, Retails&Logistics, Banking etc.)
-Recently I worked with NRG Reliant i.e Natural Resource Energy.
+Recently I worked with Adidas.
 there my role was:
-Migration of existing services on cloud.
+creation of Microservices.
 creation of AWS lambda.
 integration of various AWS services.
-
-About Project
-Reliant is a web application where customer buy electricity plans. the first thing customer needs to do they have to enrolled
-themselves and select the electricity plans. This process generates enrollment id and validates the customer inputs based on
-the electricity plan selected by the customer.
-
-Authentication:
-User login with userId and password
-Authentication service will be called, this service will validate user credentials in Oracle DB.
-If validation is successfful then OAuth(open authorization) server will create and assign token to the user requests(in header)
-and going forward this token will be used for accessing the resources.
-
-Authorization:
-There are many ways to do authorization like (API keys, IAM Role, Lambda authorizer etc.)
-In our project I have used Lambda authorizer.
-Let's suppose user wants to update the profile, so first we have to check whether this user is authorized for a particular
-resource or not. and the flow will be:		
-
-            Resources
-		    and
-		    methods       Verify token from request header by calling OAuth server and returns IAM policy.
-request -> Apigateway <-> LambdaAuthorizer
-          	  |
-		   Lambda-backend-service
-              |
-           Dynamo DB	
-		   
-1) user sends a request to Apigateway.
-2) Apigateway calls LambdaAuthorizer.
-3) LambdaAuthorizer verify the token from the request header by calling OAuth provider and returns the IAM policy.
-4) Apigateway used that IAM policy and allow users to access the backened lambda services.
-        If caching is enabled in the authorizer settings, 
-        API Gateway also caches the policy so that the Lambda authorizer function doesn't need to be invoked again.
-for more information: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html 		   
+migration of Legacy application on cloud.
 
 Dynamo DB:
 1) It's a No-sql database.
@@ -53,28 +97,18 @@ Challenges on Migration of legacy services on cloud:
 1) Data storage
 In legacy application we have used oracle or sql database, so here we have to take care of the hardware provisioning based on
 amount of the data. bcz these database are not scalable.
-But On cloud no need to think about the hardware or infratructure thing, also cloud servics are scalable based on the amount
+But On cloud no need to think about the hardware or infrastructure thing, also cloud services are scalable based on the amount
 of data. here we have migrated from SQL database to Dynamo DB.
 
 2) Cost optimization
 In Legacy application every time our instaces/nodes are running, it doesnot depends on the traffic, so the cost is high bcz
 many instances are running.
 But on cloud here we have scalable services which will increase/decrease the instances based on the traffic. so cost is less.
-here we have used lambda provisioning for scalability.
+here we have used Load balancer (Application load balancer).
  
 3) Monitoring higher env
 Initially we have to open each services logs and we have to check which services is having a issue,
 but after Grafana monitoring tool its too easy to monitor each and every services.
- 
-
-1) HashMap implementation                             (Complete)
-2) Difference between Iterator and Enumerator         (Complete) 
-5) Thread Max priority				                  (Complete)
-6) Anonymous class, Local inner class, static nested class in java 			      (Complete)
-7) Comparable and comparator
-10) Exception Handling  (Complete)
-12) Difference between Arraylist and LinkedList?
-13) Design pattern (Factory DP, Singelton DP, Prototype DP)
 
 Database:
 
@@ -132,24 +166,23 @@ Ans: Drop: deletes the whole table along with schema, once done it cannot rollba
 Ans: If singleton class is Serializable, you can serialize the singleton instance. Once it is serialized, 
 you can deserialize it but it will not return the singleton object.
 To resolve this issue, you need to override the readResolve() method that enforces the singleton. 
-It is called just after the object is deserialized. It returns the singleton object.	
+It is called just after the object is deserialized. It returns the singleton object.
+
+8) What is serialization and deserialization? where it can be used? can we serialize static data member and function? can subclass is also
+   serialized if parent is serialized? how can we make a class is serializable? while deserialization of class does serializable interface
+   need to be implements?
+Ans: conversion of object to a stream/flat file i.e serialization.
+     conversion of flat file/stream to a object i.e deserialization.
+     it is used in some messaging services (JMS, Kafka, or stored a file in DB for later usages)
+     No we cannot serialize static data member and member function, bcz static is class level variable not object level.
+     yes, if parent is serialized subclass also serialized.
+     we need to implements serializable interface.
+     No, while deserialization no need to implements serializable interface.
 
 7) what is wrapper classes/ what is boxing and unboxing?
 Ans: conversion of primitive datatype to object/wrapper type i.e boxing.
      conversion of object/wrapper type to primitive type i.e unboxing.
-     After jav 1.5 it provides automaticaly conversion mechanism.
-
-8) What is serialization and deserialization? where it can be used? can we serialize static data member and function? can subclass is also 
-   serialized if parent is serialized? how can we make a class is serializable? while deserialization of class does serializable interface 
-   need to be implements?
-Ans: conversion of object to a stream/flat file i.e serialization.
-     conversion of flat file/stream to a object i.e deserialization.
-     it is used in Hibernate, EJB, JMS
-     No we cannot serialize static data member and member function, bcz static is class level variable not object level.
-     yes, if parent is serialized subclass also serialized.	
-     we need to implements serializable interface.
-     No, while deserialization no need to implements serializable interface.
-
+     After jav 1.5 it provides automatically conversion mechanism.
 	  
 13) when you are going to use Arraylist and when LinkedList?
 Ans: LinkedList- Storing and deleting of data. internally usess doubly linked list
@@ -206,19 +239,33 @@ output: 4
 16) Can we create an Abstract class without any abstract method?
 Ans: Yes
 
+Q. String str = new String("Hello") how many objects will be created?
+Ans: 2 objects (1 in heap and 1 in string constant pool)
+
 Q. What is functional interface
 Ans: A interface which is having only one abstract method is called functional interface.
 
 Q. how many default and static method we can create in functional interface?
 Ans: 1 or more than 1
 
-Q. String str = new String("Hello") how many objects will be created?
-Ans: 2 objects (1 in heap and 1 in string constant pool)
+Q. What is the use of default method in functional interfaces in java 8?
+   Before Java 8, interfaces could have only abstract methods. The implementation of these methods has to be provided in a separate class.
+   So, if a new method is to be added in an interface, then its implementation code has to be provided in the class implementing the same interface.
+   To overcome this issue, Java 8 has introduced the concept of default methods which allow the interfaces to have methods
+   with implementation without affecting the classes that implement the interface.
 
 Q. Can we override default methods? and how
-Ans yes
+Ans Its not mandatory but Yes we can override
     we can call that method with the help of super.
 	interfacename.super.interfacemethodname
+
+	If we are using Only one interface in a Program then at a time we are using only a single default method and at
+	that time Overriding is not required.
+
+	But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default
+	Method is required. If we are using more than one interface and in both interfaces,
+	if both interfaces have the same name and same structure. So at that time,
+	one must override either one both the default method otherwise it will result in an error.
 	
 Q. what is the use of functional interface/ lambda expression
 Ans: to pass a block of code to methods or objects. perfoming actions.
@@ -256,6 +303,11 @@ Ans: 1) If two objects are equal, then they must have the same hash code.
 Ans: both are thread safe, but main difference is:
      HashTable: make lock for all the Objects.
 	 ConcurrentHashMap:it will divide the code in different segments, and then make the lock for few objects.
+
+21) What is Collision
+    Collision means two object have the same hashcode, and both the key wil try to store in the
+	same bucket.
+	Resolution: Collision chaining, use equals method.
 	 
 18)	 Aggregation :
 	 has-a relationship
@@ -269,14 +321,31 @@ Ans: both are thread safe, but main difference is:
 	 
 19) Fault tolerance
     Ex: explain Hystrix
+
+    Add the Hystrix dependency in pom.xml
+    At the top of the class add
+    @EnableCircuitBreaker
+    @HystrixCommand. It takes a parameter  fallbackMethod which is the name of the method to which the request will be redirected
+
+    @RestController
+    @SpringBootApplication
+    @EnableCircuitBreaker
+    public class SimpleClientApplication {
+      @GetMapping
+      @HystrixCommand(fallbackMethod = "defaultProductList")
+      public String cloudProductList() {
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create("http://localhost:8090/products");
+
+        return restTemplate.getForObject(uri, String.class);
+      }
+    public List<String> defaultProductList() {
+        return Arrays.asList("spring cloud");
+      }
 	
 20) Which Collection maintains insertion order and doesn't allow duplicates
 	LinkedHashSet
-	
-21) What is Collision
-    Collision means two object have the same hashcode, and both the key wil try to store in the 
-	same bucket.
-	Resolution: Collision chaining, use equals method.
+
 	
 22) Different Bean scopes in spring
 	Singleton
@@ -328,18 +397,7 @@ public DataSource secondaryDataSource() {
 }	
 
     When you want to use any of the database use @Qualifier
-@Qualifier("spring.secondDatasource")	
-
-*) what is terraform
-   1) Its an infrastructure as a code similar to AWS cloudformation that allow us to create, update and version our AWS services.
-   2) Visibility into changes before they actually happen.
-   3) Built-in graphing feature to visualize the infrastructure.
-   4) Ability to break down the configuration into smaller chunks for better organization, re-use, and maintainability.
-   
-*) what is Apache Kafka
-   Its a distributed event driven service.
-        stores large number of messages
-		allows sevices to produce and consume the messages.
+@Qualifier("spring.secondDatasource")
 	
 24) What all are 12 Factor of Microservices
 	Codebase: ex use version control for microservices
@@ -383,7 +441,8 @@ Ans:     Read_Committed
 	  syntax: @Transactional(isolation = Isolation.Read_Committed)
 	  
 28) Difference between Put and Patch?
-Ans: Put: replace the whole json
+Ans: POST: Create new resource
+     Put:  Update existing resource if present otherwise create new resource
      Patch: replace the particular filed
 	 
 29) what is stream?
@@ -393,45 +452,79 @@ Ans: Put: replace the whole json
 30) Diff between stream and parallel stream?	
     Stream perform sequentially, single thread will process the opertion.
 	Parallel Stream perform parallely, multiple thread will process the operation.
+
+1) Difference between @pathVariable and @pathParam
+@pathVariable: extracts the variable from URL.
+Ex:
+http://localhost:8080/users/101
+@GetMapping("/user/{userId}")
+public String getUserById(@PathVariable("userId") String userId) {
+}
+
+@pathParam: Passing parameter to URL.
+Ex:
+http://localhost:8080/users?userId=101
+@GetMapping("/user")
+public String getUserById(@PathParam("userId") String userId) {
+}
+
+2) Difference between @Controller and @RestController
+Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBody annotation as well.
+
+     @Controller
+     public class MyController {
+
+        @ResponseBody
+        @GetMapping("/hello")
+        public String helloWorld(){
+              return "Hello World!";
+        }
+	 }
+
+     @RestController: combination of both @Controller and @ResponseBody annotation.
+
+     @RestController
+     public class MyRestController {
+
+        @GetMapping("/hello")
+        public String helloWorld(){
+               return "Hello World!";
+        }
+	 }
+
+Exception:
+NoSuchBeanDefinitionException: No qualifying bean of type
+solution:
+You might need to add the following to the main app class:
+@ComponentScan(basePackages = "Package where the repository is located”)
+
+Looks like your repository is in a different packer and spring context is not able to pick it up when starting up.
+@ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
 					
 ==============================================================================================================
-                 Java Programs:
-					
-26) create an array and find out 2nd largest number
-Ans: List<Integer> list = Arrays.asList(6,9,3,7,4,8)
-     list.sorted((o1,o2)->o2.compareTo(01)).limit(2).skip(1).forEach(System.out::println)
-	 
-27) write a program to find the repeated character of the string.
-Ans: public static void main(String[] args) {
-		String str = "india";
-		for (int i = 0; i < str.length(); i++) {
-			boolean found = true;
-			for (int j = i + 1; j < str.length(); j++) {
-				if (str.charAt(i) == str.charAt(j)) {
-					found = false;
-					break;
-				}
-			}
-			if (found) {
-				System.out.println("Number is: " + str.charAt(i));
-				break;
-			}
-		}
-	}
-	
-28) write a java program to read a file
-Ans: try {
-			
-			FileReader fileReader = new FileReader("C:\\Users\\admin\\Desktop\\Winwire\\f1.txt");
-			BufferedReader br = new BufferedReader(fileReader);
-			String str;
-			while((str=br.readLine())!=null) {
-				System.out.println(str);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-				
+
+
+                Cloud
+         ===========================================
+1) What is cloud?
+   On demand services over the internet is called cloud. and managing those services/resources is called computing.
+
+2) what are the types of Cloud
+   Deployment model: Public cloud -> Access for all (Gmail)
+					 Private cloud -> only for private networks of the organization (Outlook).
+					 Hybrid cloud -> combination of both  (internet cafe)
+
+	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator..
+	                 PAAS: Amazon web services, used by software developers..
+					 SAAS: Gmail, Goodle drive, directly used by everyone.
+
+3) differnece between cloud computing and on premises? advantages and disadvantages?
+   On premises:- Physical server or softwares which is located/installed inside the organization.
+                 Ex: unix/linux box, windows etc..
+
+   Cloud computing: Virtual servers or software services provided by third party/vendor through web application.
+                 Ex: Gmail, Google drive, (no need to install directly run on browser)
+================================================================
 				
 				AWS: S3
 			===========
@@ -447,8 +540,8 @@ Ans: try {
    Infrequent: once in a month
    
 3) what is versioning in S3?
-   Versioning means keeping multiple variants of an object in the same bucket. 
-   You can use versioning to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. 
+   Versioning means keeping multiple variants of single object in the same bucket.
+   we can use versioning to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket.
    With versioning, you can easily recover from both unintended user actions and application failures.
    
 4) what is object lock in S3?
@@ -472,15 +565,23 @@ Ans: try {
    vertical: increase the number of instances. 
 
 3) Max exection time in lambda
-   5 min, but we can configure 15 min also.
+   15 min.
 
 4) how bill will be generate for lambda function?
    based on how much memory used and the time duration for the execution.
 
-5) how versioning works in aws lambda?
-   Lambda creates a new version of your function each time that you publish the function. 
-   The new version is a copy of the unpublished version of the function. 
-   Lambda doesn't create a new version if the code in the unpublished version is the same as the previous published version. 
+5) how versioning and Alias works in aws lambda?
+   Versioning:
+   1) create a function and test it, if everything is ok then will go for publish.
+   2) once we go for publish, our code is immutable we can't edit now, and lambda will create a new version 1.
+   3) now we have added more code in the $latest version and again if we go for publish it will create new version 2.
+   everytime when we publish our function new version will create.
+
+   Alias:
+   alias is used for the deployment.
+   ex: Dev is pointing to version 1
+       Prod is pointing to version 2
+       through Alias we can also do blue green deployment 50% traffic is going to version 1 and 50% to version 2
  
 6) Bydefault Concurrency/unreserved concurrency limit : 1000 (we can change it with AWS support team)
              reserved concurrency limit : anything below 1000
@@ -493,6 +594,12 @@ Ans: try {
    cold start: time between invoking of lambda and running of lambda.
                lambda lifecycle: invoke->micro container created->loading lambda code->running lambda
    warm start: provisioned concurrency (before invoking the lambda, code is loaded and container is ready to run)
+
+9) What is Lambda Layer?
+   Lambda layer is a .zip archive file which is having information of external libraries and dependencies.
+   it is used to reduce the lambda packaging size.
+   we can attach maximum 5 layers to lambda function.
+   Multiple lambda function can use the same layer.
    
 
       
@@ -557,58 +664,232 @@ For ex: users sends a request that goes to the database, fetch some results and 
 		      here   User-1 sends a request in background Thread-1 will be called and it will not wait for DB response,
 			         it will tell DB just send a event once your process is done. and Thread-1 is ready to take another
 					 User request.
-					 
 
-		
-                Cloud
-         ===========================================				
-1) What is cloud?
-   On demand services over the internet is called cloud. and managing those services/resources is called computing.
-   
-2) what are the types of Cloud
-   Deployment model: Public cloud -> Access for all (Gmail)
-					 Private cloud -> only for private networks of the organization (Outlook).
-					 Hybrid cloud -> combination of both  (internet cafe)
-	
-	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator..
-	                 PAAS: Amazon web services, used by software developers..
-					 SAAS: Gmail, Goodle drive, directly used by everyone.
-
-3) differnece between cloud computing and on premises? advantages and disadvantages?
-   On premises:- Physical server or softwares which is located/installed inside the organization.
-                 Ex: unix/linux box, windows etc..
 				 
-   Cloud computing: Virtual servers or software services provided by third party/vendor through web application.
-                 Ex: Gmail, Google drive, (no need to install directly run on browser) 
-================================================================
-				 
-1) Difference between @pathVariable and @pathParam
-Both are used to access parameter from URI template.
-@pathParam: is from JAX-rs, it works only for Rest.
-@pathVariable: is from spring. so it works both spring mvc and Rest.
 
-2) Difference between @Controller and @RestController	
-Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBody annotation as well.
 
-     @Controller
-     @ResponseBody
-     public class MyController { 
-	 }
-	 
-     @RestController: combination of both @Controller and @ResponseBody annotation.	
-	 
-     @RestController
-     public class MyRestController { 
-	 }	 
-	 
-Exception:
-NoSuchBeanDefinitionException: No qualifying bean of type
-solution:
-You might need to add the following to the main app class:
-@ComponentScan(basePackages = "Package where the repository is located”)
+#############################################################
+Advantages/benefits of Microservices
+1. light weight/loosely coupled, (It breaks monolithic application to module/service based. ex: shopping application)
+2. Deployment is easy bcz of light weight.
+3. No need to use external server springboot provides internal tomcat server for running microservices.
+4. Scalibility is easy. (microservices which is having more load will scale those only)
+5. Easy to test due to less dependency
 
-Looks like your repository is in a different packer and spring context is not able to pick it up when starting up.
-@ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
+Disadvantages of Microservices
+1. Difficult to maintain if we have 1000 or 10000 of microservices.
+2. Higher chance of communication failure.
+
+#############################################################
+Microservices versioning
+
+There are two ways to version microservices
+1. URI versioning (Ex: https://hostname:8080/v1/inventory)
+2. MediaType versioning (Ex: application/v1+json)
+
+#############################################################
+How to mock static methods, fields, constructors and final class, methods
+Powermock
+@RunWith(PowerMockRunner.class)
+PowerMockito.mockStatic() method
+
+
+#############################################################
+How to handle/increase the performance of the application?
+
+1. Use containerization (Ex: Docker)
+2. Use single database per application (Any DB)
+3. Do proper scalling based on the traffic. (Kubernetes, any load balancer)
+4. Use any Cache mechanism (Redis, inMemory cache) reduce number of calls to DB.
+
+#############################################################
+How you manage/provide security to the Application
+
+1. Use APIGateway with Lambda Authorizer
+2. Use OAUTH2
+3. Use Amazon Cognito user pool
+
+Use APIGateway with Lambda Authorizer
+Authentication:
+1. User sends request to APIgateway with userId and password
+2. APIgateway will call Authentication service. (Authentication service is either your Lambda or Microservice)
+3. Authentication service will validate username and password in DB (Dynamo DB, SQL db etc..)
+4. Once user is validated Authentication service will create a access token and same as attached to the request.
+
+Authorization:
+5. APIgateway will receive the access token and sends the request to Lambda authorizer.
+6. Lambda authorizer will check what all permission/scope is allowed to the user. (It will check the permission and scopes to DB)
+7. Lambda authorizer will generate a IAM policy with allow and denied permission and send back to APIgateway.
+8. APIgateway will check the permission and based on that it will allow the user to use AWS services.
+
+Use OAUTH2
+1. lets suppose user wants to login online shopping website.
+2. once shopping home page will come it will ask for username password or signup with third party.(Google, facebbok etc)
+3. If user will try to login with third party then OAUTH server will be called and sends request to Google.
+4. Google will validate the request and send back response to OAUTH server with access token.
+5. OAuth server will put this access token to the request header and going forward all the user request will be
+   match with the access token.
+
+Use Amazon Cognito user pool
+1. create a User pool, add the user there.
+2. once user sends the request check the user pool and validate the user id and secrets.
+3. once user is validated Amazon cognito will create a id, access and refresh token.
+4. Amazon cognito will send the request with id token to APIgateway.
+5. APIgateway will use this information and based on the access it will allow user to AWS resources.
+
+#############################################################
+Docker:
+
+Docker is a container which does packaging, building, and run the application anywhere.
+It takes care of the application dependencies.
+
+extension: dockerfile or docker-compose both are .txt file
+
+FROM registry.tools.3stripes.net/base-images/ubuntu_java-11
+ADD ./target/*.jar  /app/gis-datatransformation-operations.jar
+EXPOSE 7708
+CMD  java -jar -Dspring.profiles.active=$EXEC_ENVIRONMENT /app/gis-datatransformation-operations.jar
+
+
+#############################################################
+Kubernetes:
+
+Kubernetes is a cluster/server which provides a physical/virtual cluster where multiple containers
+runs with a different/same images.
+ its having master -> node structure.
+master will distribute and manage the load from all the nodes. 
+
+POD object: used to run a container
+Service object: used to manage/monitor the performance.
+Deployment object: used for the deployment
+
+extension: k8sDeployment.yml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}
+spec:
+  replicas: ${REPLICAS}
+  strategy:
+    # indicate which strategy we want for rolling update
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  # must have in new version and immutable after deployment completion;
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME}
+    spec:
+      containers:
+      - name: ${APP_NAME}
+        image: ${TAG_NAME}
+        imagePullPolicy: Always
+        resources:
+           limits:
+            cpu: ${RESOURCES_LIMITS_CPU}
+            memory: ${RESOURCES_LIMITS_MEMORY}
+           requests:
+            cpu: ${RESOURCES_REQUESTS_CPU}
+            memory: ${RESOURCES_REQUESTS_MEMORY}
+        ports:
+        - name: service-port
+          containerPort: 7708
+        # liveness probe allows to restart the container in case application goes to failure mode and stops responding
+        livenessProbe:
+          httpGet:
+            path: /actuator/health # health endpoint is automatically provided by Spring Actuator
+            port: service-port
+          initialDelaySeconds: 200
+          periodSeconds: 10
+          failureThreshold: 30
+          successThreshold: 1
+          timeoutSeconds: 15
+        env:
+          - name: EXEC_ENVIRONMENT
+            value: ${PROFILE_SELECTION}
+      imagePullSecrets:
+        - name: ${SECRET_KEY}
+---
+
+##############################################################
+Difference between Docker and K8s?
+When to use Docker and when to use K8s?
+
+When you have very small application which requires only one container go for the Docker.
+When you have large application for example there are 100 microservices each is deployed to 1 docker container. that means
+total 100 docker container is running, then who will manage this 100 containers. for this type of scenario will go for Kubernetes.
+Kubernetes provides the facility of master and nodes. it also manages the loads for each containers.
+
+##############################################################
+Apache Kafka
+
+Kafka is a messaging system, its a distributed event driven real time event processing system.
+It works based on the partitioning. multiple partition will handle the messages.
+Kafka cluster or Zookeper will take care of the partitioning and load balance for each partitions.
+Once producer sends messages to Kafka, messages will be there until consumer will consume the messages. messages will not lost.
+To send/consume the messages we have to use the Topic.
+
+
+
+
+
+##############################################################
+Terraform:
+
+Terraform provides functionality to implement infrastructure as a code, where we can create resources and services on AWS.
+It supports different types of cloud providers ex: AWS, Azure, GCP etc..
+extension is .tf file
+In terraform mainly we have 3 blocks
+ 1. Terraform block
+ 2. Provider block
+ 3. Resource block
+
+ Example of .tf file
+ terraform {
+   required_providers {
+     aws = {
+       source  = "hashicorp/aws"
+       version = "~> 4.16"
+     }
+   }
+
+   required_version = ">= 1.2.0"
+ }
+
+ provider "aws" {
+   profile = "default"
+   region  = "us-west-2"
+ }
+
+ resource "aws_instance" "app_server" {
+   ami           = "ami-830c94e3"
+   instance_type = "t2.micro"
+
+   tags = {
+     Name = "ExampleAppServerInstance"
+   }
+ }
+
+ Terraform lifecycle:
+ 1. init
+ 2. plan
+ 3. validate
+ 4. apply
+ 5. destroy
+
+ steps to install terraform
+ 1. download binary file from Hashicorp
+ 2. extract to the local folder.
+ 3. set the terraform folder path to environment variable.
+
+
+
 	 
 	 
 	 
