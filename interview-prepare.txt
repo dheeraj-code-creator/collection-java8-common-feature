@@ -24,6 +24,23 @@ Sealed classes
 Record classes
 Text Blocks
 
+15) Microservices Design pattern
+1. Api Gateway (Zuul or AWS API Gateway)     : entry point of all the Microservices.
+2. Asynchronous messaging (Kafka or AWS SQS) : Acts as broker where producer produce the msg and receiver recieve the msg.
+3. Fault tolerance (Circuit breaker)         : Hystrix
+4. Versioning                                : Allows different version to test the api in diff env: test, prod
+5. Aggregator                                : Combines all response to the single one and provides to the client.
+6. Decomposition                             : Breaks monolithic application to module based application.
+7. Service registry and locator              : Eureka
+8. 1 Db per service
+
+16) Microservice Orchestration and Choreography?
+                  OR
+          Transaction Rollback
+Orchestration: One service will manage other services.
+                 Ex: Kubernetes or created one separate microservice (order service)
+Choreography : event driven services, all microservice will managed based on the event.
+                 Ex: Kafka
 
 
 
