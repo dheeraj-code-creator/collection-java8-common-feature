@@ -3,7 +3,7 @@ package com.example.collectionfeature;
 /*Set: interface
 HashSet: class
 Maintains no order, displays data based on the hashcode
-It doesn't allow duplicates. if duplicate elements are there it will not throw any error. it prints ony once*/
+It doesn't allow duplicates. if duplicate elements are there it will not throw any error. it prints only once*/
 
 import java.util.HashSet;
 import java.util.Set;

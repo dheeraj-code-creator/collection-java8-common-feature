@@ -10,6 +10,7 @@ public class AnagramTest {
         String str2 = "PEEK";
         boolean flag = true;
 
+        // without using StringBuffer reverse() function
         if(str1.length()!=str2.length()){
             flag = false;
         }else{
@@ -24,6 +25,20 @@ public class AnagramTest {
         }else{
             System.out.println("Str1 and Str2 are Not Anagram");
         }
+
+        // with the help of reverse() function
+       /* String firstInput = "keep";
+        String secondInput = "peek";
+        if(firstInput.length()==secondInput.length()){
+            StringBuffer buffer = new StringBuffer(firstInput);
+            String firstInputRevesrse = buffer.reverse().toString();
+            if(firstInputRevesrse.equals(secondInput)){
+                System.out.println("Both String is anagram ");
+            }else{
+                System.out.println("Not anagram");
+            }
+
+        }*/
 
     }
 }

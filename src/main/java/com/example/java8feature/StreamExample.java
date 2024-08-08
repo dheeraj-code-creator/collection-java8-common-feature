@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-Stream provides functional style operations, it doesn't modify actual source of data.
+Stream is a sequence of elements which provides functional style operations, it doesn't modify actual source of data.
 it creates a parallel stream and performs the opearations.
 
 Functional programming or Declarative programing

@@ -9,18 +9,22 @@ import java.util.Objects;
 
 public class SubString {
     public static void main(String[] args) {
-        // print substring put from the string
-       /* String input = "computer";
-        String output = input.substring(3,6);
-        System.out.println("substring of a string is: " + output);
+        // substring of a string
+        String date = "08-Aug-2024";
 
-        // print all the character after '-' from the string
-        String str = "2024-04";
-        int inWeek = Integer.parseInt(str.substring(str.lastIndexOf("-") + 1));
-        int outWeek = inWeek + 1;
-        System.out.println("substring of a string is: " + outWeek);
+        // print only month
+        String month = date.substring(date.indexOf("-")+1, date.lastIndexOf("-"));
+        System.out.println("month : " + month);
 
-        System.out.println("############################################################################");*/
+        // print only day
+        String day = date.substring(0, date.indexOf("-"));
+        System.out.println("day : " + day);
+
+        // print only year
+        String year = date.substring(date.lastIndexOf("-")+1);
+        System.out.println("year : " + year);
+
+        System.out.println("############################################################################");
 
         // for integer
        /* List<Integer> policyIdList = Arrays.asList(1001, 1002, 1003);

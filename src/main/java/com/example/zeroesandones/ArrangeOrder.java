@@ -16,11 +16,10 @@ public class ArrangeOrder {
         System.out.println("###############################################################");
 
         // by java 7
-        String str = "01010101";
-        char[] charArray = str.toCharArray();
-        Arrays.sort(charArray);
-        String s = new String(charArray);
-        System.out.println(s);
+        String inputStr = "01010101";
+        char[] output = inputStr.toCharArray();
+        Arrays.sort(output);
+        System.out.println(output);
 
         System.out.println("###############################################################");
 
