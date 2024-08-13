@@ -1,3 +1,15 @@
+Introduction:
+
+Hi I am Dheeraj Kumar.
+I have 10 years of IT experience working on Java, Microservices, and AWS.
+I have worked on many domains like (telecom, Backup&storage, Retails&Logistics, Banking and Automobile.)
+My current company is LTIMindtree and I am woring with client Adidas.
+there my role was:
+creation of Microservices.
+creation of AWS lambda.
+integration of various AWS services.
+migration of Legacy application on cloud.
+
 1) HashMap implementation                             (Complete)
 2) Difference between Iterator and Enumerator         (Complete)
 5) Thread Max priority				                  (Complete)
@@ -55,18 +67,6 @@ Enumerator: Doesn't have remove() method.
 
 
 ################################################################################################
-
-Introduction:
-
-Hi I am Dheeraj Kumar.
-I have 9.9 years of IT experience working on Java, Microservices, and AWS.
-I have worked on many domains like (telecom, Backup&storage, Retails&Logistics, Banking etc.)
-Recently I worked with Adidas.
-there my role was:
-creation of Microservices.
-creation of AWS lambda.
-integration of various AWS services.
-migration of Legacy application on cloud.
 
 Dynamo DB:
 1) It's a No-sql database.
@@ -161,8 +161,8 @@ Ans: conversion of object to a stream/flat file i.e serialization.
      No, while deserialization no need to implements serializable interface.
 
 7) what is wrapper classes/ what is boxing and unboxing?
-Ans: conversion of primitive datatype to object/wrapper type i.e boxing.
-     conversion of object/wrapper type to primitive type i.e unboxing.
+Ans: conversion of primitive datatype to wrapper class i.e boxing.
+     conversion of wrapper class to primitive datatype i.e unboxing.
      After jav 1.5 it provides automatically conversion mechanism.
 	  
 13) when you are going to use Arraylist and when LinkedList?
@@ -230,6 +230,7 @@ Q. how many default and static method we can create in functional interface?
 Ans: 1 or more than 1
 
 Q. What is the use of default method in functional interfaces in java 8?
+   for Backtracking
    Before Java 8, interfaces could have only abstract methods. The implementation of these methods has to be provided in a separate class.
    So, if a new method is to be added in an interface, then its implementation code has to be provided in the class implementing the same interface.
    To overcome this issue, Java 8 has introduced the concept of default methods which allow the interfaces to have methods
@@ -305,8 +306,8 @@ Ans: both are thread safe, but main difference is:
 
     Add the Hystrix dependency in pom.xml
     At the top of the class add
-    @EnableCircuitBreaker
-    @HystrixCommand. It takes a parameter  fallbackMethod which is the name of the method to which the request will be redirected
+    @EnableCircuitBreaker on Class
+    @HystrixCommand on method. It takes a parameter  fallbackMethod which is the name of the method to which the request will be redirected
 
     @RestController
     @SpringBootApplication
@@ -415,7 +416,7 @@ Ans: Required
 	  syntax: @Transactional(propagation = Propogation.Required)
 	 
 27) What are the transaction isolation provided by spring boot?
-Ans:     Read_Committed
+Ans: Read_Committed
 	 Read_Uncommitted
 	 Repeatable_read
 	 Serializable
@@ -479,7 +480,7 @@ solution:
 You might need to add the following to the main app class:
 @ComponentScan(basePackages = "Package where the repository is located”)
 
-Looks like your repository is in a different packer and spring context is not able to pick it up when starting up.
+Looks like your repository is in a different package and spring context is not able to pick it up when starting up.
 @ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
 					
 ==============================================================================================================
@@ -495,8 +496,8 @@ Looks like your repository is in a different packer and spring context is not ab
 					 Private cloud -> only for private networks of the organization (Outlook).
 					 Hybrid cloud -> combination of both  (internet cafe)
 
-	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator..
-	                 PAAS: Amazon web services, used by software developers..
+	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator.. (EC2)
+	                 PAAS: Amazon web services, used by software developers.. (S3, SNS, SQS, Dynamo DB)
 					 SAAS: Gmail, Goodle drive, directly used by everyone.
 
 3) differnece between cloud computing and on premises? advantages and disadvantages?
@@ -542,8 +543,8 @@ Looks like your repository is in a different packer and spring context is not ab
                No need to worry about the servers.
 			   
 2) what is horizontal and vertical scalling in AWS lambda?
-   Horizontal: increase the memory size.
-   vertical: increase the number of instances. 
+   Horizontal: increase the number of instances.
+   vertical: increase the memory.
 
 3) Max exection time in lambda
    15 min.
@@ -567,20 +568,31 @@ Looks like your repository is in a different packer and spring context is not ab
 6) Bydefault Concurrency/unreserved concurrency limit : 1000 (we can change it with AWS support team)
              reserved concurrency limit : anything below 1000
    provisioned concurrency (before invoking the lambda code is loaded and container is ready to run) more costly
-			 
-7) what is throttling?
-   number of req exceeds concurrency limit. req>1000
  
-8) what is cold and warm start in AWS Lambda?
+7) what is cold and warm start in AWS Lambda?
    cold start: time between invoking of lambda and running of lambda.
                lambda lifecycle: invoke->micro container created->loading lambda code->running lambda
    warm start: provisioned concurrency (before invoking the lambda, code is loaded and container is ready to run)
 
-9) What is Lambda Layer?
+8) What is Lambda Layer?
    Lambda layer is a .zip archive file which is having information of external libraries and dependencies.
    it is used to reduce the lambda packaging size.
    we can attach maximum 5 layers to lambda function.
    Multiple lambda function can use the same layer.
+
+latency
+	Measures the time delay when sending data from source to destination.
+throughput
+	Volume of data, how much data/request user can transmit in a period of time.
+	1000 req/sec
+thresholds
+	Maximum limit, after a particular range/load/time the alarm will generate
+throttled
+	Number of request exceeds the limit.
+	req>1000
+replica
+    Object/Instances
+
    
 
       
@@ -600,10 +612,6 @@ Looks like your repository is in a different packer and spring context is not ab
    create api->choose api types->create resource->create method(put,post,get etc)->integrate with(lambda, vpc, etc)->deploy api
    then will get url to invoke.
 
-4) what is throttling?
-   request per second
-   10000 req/ second
-   5000 req at a time. burst ratio.
 
                       Redis
                 ===============================================
@@ -716,7 +724,7 @@ Use Amazon Cognito user pool
 2. once user sends the request check the user pool and validate the user id and secrets.
 3. once user is validated Amazon cognito will create a id, access and refresh token.
 4. Amazon cognito will send the request with id token to APIgateway.
-5. APIgateway will use this information and based on the access it will allow user to AWS resources.
+5. APIgateway will use this information and based on the access it will allow user to use AWS resources.
 
 #############################################################
 Docker:
@@ -740,9 +748,18 @@ runs with a different/same images.
  its having master -> node structure.
 master will distribute and manage the load from all the nodes. 
 
-POD object: used to run a container
 Service object: used to manage/monitor the performance.
 Deployment object: used for the deployment
+POD object: used to run a container
+
+Replica means: creation of POD objects
+
+Kubernetes Cluster (bunch of servers)
+		      nodes (one or more than one we can also say instances.)
+			      namespace (ex: service.dev.adidas.com)
+				      Deployment
+				         POD
+				           container
 
 extension: k8sDeployment.yml
 ---
@@ -808,17 +825,36 @@ total 100 docker container is running, then who will manage this 100 containers.
 Kubernetes provides the facility of master and nodes. it also manages the loads for each containers.
 
 ##############################################################
+Distributed means: working with different machines/servers.
 Apache Kafka
 
 Kafka is a messaging system, its a distributed event driven real time event processing system.
-It works based on the partitioning. multiple partition will handle the messages.
-Kafka cluster or Zookeper will take care of the partitioning and load balance for each partitions.
 Once producer sends messages to Kafka, messages will be there until consumer will consume the messages. messages will not lost.
 To send/consume the messages we have to use the Topic.
 
+Kafka Cluster (bunch of broker/ bunch of servers)
+    Broker (one or more than one we can also say nodes/instances.)
+      Topic (one or more than one topic)
+        Partitions (one or more than one partition)
+            offset (number or position of the messages)
 
+we have to create the topic and partitions through kafka template command
+Offset means: offset[0] position of the message inside the partitions, lets suppose there are 5 messages and after 3 messages
+              consumer goes down, after some time consumer will up then how consumer will know from where to start the consuming the
+              messages again. here offset will work.
+replica : number of broker/node/instances
 
+Zookeeper work:
+1. managing kafka cluster
+2. Load balance between partition
+3. Keeping the records how many messages got consumed by the consumer with the help of Offset.
 
+steps:
+1. start zookeeper
+2. start kafka server
+3. create topics and partitions.
+
+Provides all information to application.properties file
 
 ##############################################################
 Terraform:
@@ -868,6 +904,30 @@ In terraform mainly we have 3 blocks
  1. download binary file from Hashicorp
  2. extract to the local folder.
  3. set the terraform folder path to environment variable.
+
+####################################################################################
+
+Steps to deploy microservices with the help of Docker and Kubernetes?
+1. create microservice
+2. create dockerfile
+3. create k8s.yaml file
+4. build your microservice
+   .jar is ready to /target folder
+5. build your dockerfile for creation of docker image (docker build -t your-id/jar-name .)
+   a. it will download the jdk8 library.
+   b. copy .jar file from /target folder to current directory .
+   c. build the image file.
+6. push image file to docker hub.
+7. for deployment we already have k8s.yaml file, use kubectl command and deploy the application.
+   kubectl apply -f k8s.yaml file name
+   to check the deployment use below command
+   kubectl get deployment
+   To get the URL for the microservice use below command
+   minikube service application-name
+       (https://192.82.78/xyz)
+
+####################################################################################
+
 
 
 
