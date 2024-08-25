@@ -2,6 +2,7 @@ package com.example.java8feature;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompareTwoListExample {
 
@@ -10,13 +11,23 @@ public class CompareTwoListExample {
         List<Integer> secondList = Arrays.asList(786, 123, 456);
 
         // by Java 8
- //     boolean resultFlag = firstList.stream().allMatch(list -> firstList.containsAll(secondList));
-        boolean resultFlag = firstList.stream().allMatch(secondList::contains);
-        if(resultFlag){
-            System.out.println("matched");
-        }else{
-            System.out.println("Not matched");
-        }
+        // compare two list
+        List<String> list1 = Arrays.asList("A", "B", "C");
+        List<String> list2 = Arrays.asList("A", "B", "C", "D");
+
+        // compare two list are equal or not
+      //  boolean allMatch = list1.stream().allMatch(k -> list2.containsAll(k));
+        boolean allMatch = list1.stream().allMatch(list2::contains);
+        System.out.println("is both list is equal: " + allMatch);
+
+        // find out the similar value from both the list
+      //  List<String> similarList = list2.stream().filter(k -> list1.contains(k)).collect(Collectors.toList());
+        List<String> similarList = list2.stream().filter(list1::contains).collect(Collectors.toList());
+        System.out.println("similarList: " + similarList);
+
+        // find out the difference value from both the list
+        List<String> differenceList = list2.stream().filter(k -> ! list1.contains(k)).collect(Collectors.toList());
+        System.out.println("differenceList: " + differenceList);
 
 
         // by Java 7

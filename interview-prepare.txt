@@ -50,7 +50,8 @@ Text Blocks
                   OR
           Transaction Rollback
 Orchestration: One service will manage other services.
-                 Ex: Kubernetes or created one separate microservice (order service)
+                 Ex: Kubernetes (on-premises)
+                     ECS (Fargate/EC2 cloud)
 Choreography : event driven services, all microservice will managed based on the event.
                  Ex: Kafka
 
@@ -127,7 +128,7 @@ Ans: Which means that when a Parent row is deleted (killed), no orphan row shoul
      All children of the parent row are killed (deleted), too. If any of these children has grandchildren (in another table through another foreign key) 
 	 and there is ON DELETE CASCADE defined, these should be killed, too (and all descendants, as long as there is a cascade effect defined.
 
-4) Difference between Primary key and Unique key?
+4) Difference between Primary key and Unique key and Foreign key?
     Primary key:
 	1. cannot contains null values.
 	2. primary key is related with another table as a foreign key.
@@ -250,7 +251,7 @@ Ans Its not mandatory but Yes we can override
 	one must override either one both the default method otherwise it will result in an error.
 	
 Q. what is the use of functional interface/ lambda expression
-Ans: to pass a block of code to methods or objects. perfoming actions.
+Ans: to pass a block of code to methods or objects. performing actions.
      
 
 Q. How to create immutable class in java?
@@ -275,7 +276,7 @@ Ans: based on requiremts:
      if you want to only extends one class go for Abstract. 
 	 (A Class can only extends 1 class and implements many interfaces)
 	 if you want to implements more than one interface go for interface.
-	 (Interface only extends many interfaces.)
+	 (Interface extends many interfaces.)
 	 
 Q. Contract of hashcode
 Ans: 1) If two objects are equal, then they must have the same hash code. 
@@ -727,6 +728,40 @@ Use Amazon Cognito user pool
 5. APIgateway will use this information and based on the access it will allow user to use AWS resources.
 
 #############################################################
+
+Distributed means: working with different machines/servers.
+Apache Kafka
+
+Kafka is a messaging system, its a distributed event driven real time event processing system.
+Once producer sends messages to Kafka, messages will be there until consumer will consume the messages. messages will not lost.
+To send/consume the messages we have to use the Topic.
+
+Kafka Cluster (bunch of broker/ bunch of servers)
+    Broker (one or more than one we can also say nodes/instances.)
+      Topic (one or more than one topic)
+        Partitions (one or more than one partition)
+            offset (number or position of the messages)
+
+we have to create the topic and partitions through kafka template command
+Offset means: offset[0] position of the message inside the partitions, lets suppose there are 5 messages and after 3 messages
+              consumer goes down, after some time consumer will up then how consumer will know from where to start the consuming the
+              messages again. here offset will work.
+replica : number of broker/node/instances
+
+Zookeeper work:
+1. managing kafka cluster
+2. Load balance between partition
+3. Keeping the records how many messages got consumed by the consumer with the help of Offset.
+
+steps:
+1. start zookeeper
+2. start kafka server
+3. create topics and partitions.
+
+Provides all information to application.properties file
+
+##############################################################
+
 Docker:
 
 Docker is a container which does packaging, building, and run the application anywhere.
@@ -739,6 +774,16 @@ ADD ./target/*.jar  /app/gis-datatransformation-operations.jar
 EXPOSE 7708
 CMD  java -jar -Dspring.profiles.active=$EXEC_ENVIRONMENT /app/gis-datatransformation-operations.jar
 
+How you manage the different env in docker?
+I have created different dockerfile for diff environments.
+Ex:
+Dockerfile-dev
+Dockerfile-stage
+Dockerfile-prod
+
+Docker-compose-dev up -d
+Docker-compose-prod up -d
+
 
 #############################################################
 Kubernetes:
@@ -746,7 +791,7 @@ Kubernetes:
 Kubernetes is a cluster/server which provides a physical/virtual cluster where multiple containers
 runs with a different/same images.
  its having master -> node structure.
-master will distribute and manage the load from all the nodes. 
+master will distribute and manage the load from all the nodes.
 
 Service object: used to manage/monitor the performance.
 Deployment object: used for the deployment
@@ -762,6 +807,10 @@ Kubernetes Cluster (bunch of servers)
 				           container
 
 extension: k8sDeployment.yml
+
+How you manage the different env in k8s?
+Created only one file k8s.yaml
+with the help of namespace distributed the env.
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -824,37 +873,7 @@ When you have large application for example there are 100 microservices each is 
 total 100 docker container is running, then who will manage this 100 containers. for this type of scenario will go for Kubernetes.
 Kubernetes provides the facility of master and nodes. it also manages the loads for each containers.
 
-##############################################################
-Distributed means: working with different machines/servers.
-Apache Kafka
-
-Kafka is a messaging system, its a distributed event driven real time event processing system.
-Once producer sends messages to Kafka, messages will be there until consumer will consume the messages. messages will not lost.
-To send/consume the messages we have to use the Topic.
-
-Kafka Cluster (bunch of broker/ bunch of servers)
-    Broker (one or more than one we can also say nodes/instances.)
-      Topic (one or more than one topic)
-        Partitions (one or more than one partition)
-            offset (number or position of the messages)
-
-we have to create the topic and partitions through kafka template command
-Offset means: offset[0] position of the message inside the partitions, lets suppose there are 5 messages and after 3 messages
-              consumer goes down, after some time consumer will up then how consumer will know from where to start the consuming the
-              messages again. here offset will work.
-replica : number of broker/node/instances
-
-Zookeeper work:
-1. managing kafka cluster
-2. Load balance between partition
-3. Keeping the records how many messages got consumed by the consumer with the help of Offset.
-
-steps:
-1. start zookeeper
-2. start kafka server
-3. create topics and partitions.
-
-Provides all information to application.properties file
+###############################################################
 
 ##############################################################
 Terraform:
@@ -906,7 +925,7 @@ In terraform mainly we have 3 blocks
  3. set the terraform folder path to environment variable.
 
 ####################################################################################
-
+             manually/through console
 Steps to deploy microservices with the help of Docker and Kubernetes?
 1. create microservice
 2. create dockerfile
@@ -925,8 +944,133 @@ Steps to deploy microservices with the help of Docker and Kubernetes?
    To get the URL for the microservice use below command
    minikube service application-name
        (https://192.82.78/xyz)
+------------------------------------------------------------------------------------------------
+             manually/through console
+Steps to deploy microservices with the help of Docker and ECS?
+1. create microservice
+2. create dockerfile
+4. build your microservice
+   .jar is ready to /target folder
+5. build your dockerfile for creation of docker image (docker build -t your-id/jar-name .)
+   a. it will download the jdk8 library.
+   b. copy .jar file from /target folder to current directory .
+   c. build the image file.
+6. push image file to docker hub/ECR.
+7. Login to AWS goto ECS
+8. select task definition (Fargate or EC2) select any one based on the budget.
+9. Add the container and provide the docker image details. (it will download the image from docker hub or ECR)
+10. Create a cluster to run above task.
+11. Once task is running successfully on cluster we will get a public ip to hit on browser.
+
+------------------------------------------------------------------------------------------------
+              with Jenkins tools
+1. commit and push the code to any repository version control tool (Github, Bitbucket etc..)
+2. install the jenkins to your machine (local, dev, prod etc)
+3. integrate your repository with jenkins.
+    1. open jenkins and create job.
+    2. provide the repository url in configuration
+    3. provide the credentials.
+    4. provide the cron job when you want to run the jar
+4. click on build now and check job is success or not.
+5. from here after every commit jenkins will automatically build the application.
+6. now we have to integrate Docker with jenkins.
+7. goto jenkins plugins and install docker plugin
+8. now provide the dockerhub/ECR repo name and credentials to jenkins, so that jenkins will build the image and push to repo.
+
+------------------------------------------------------------------------------------------------
+             with Jenkins File (Standard approach follow by IT industry)
+1. create a microservice
+2. create a docker file
+3. create a kubernetes file
+4. create a jenkins file
+5. commit and push code to version control.
+6. now first we have to integrate our version control repo to jenkins
+       1. open jenkins and create job.
+       2. provide the repository url in configuration
+       3. provide the credentials.
+       4. provide the cron job when you want to run the jar
+7. second we have to tell the jenkins build the maven project, build the docker image, push to dockerhub/ECR, Deploy to K8s.
+8. we have to write all these steps in jenkins file.
+   EX:
+   pipeline {
+       agent any
+       tools{
+           maven 'maven_3_5_0'
+       }
+       stages{
+           stage('Build Maven'){
+               steps{
+                   checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Java-Techie-jt/devops-automation']]])
+                   sh 'mvn clean install'
+               }
+           }
+           stage('Build docker image'){
+               steps{
+                   script{
+                       sh 'docker build -t javatechie/devops-integration .'
+                   }
+               }
+           }
+           stage('Push image to Hub'){
+               steps{
+                   script{
+                      withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                      sh 'docker login -u javatechie -p ${dockerhubpwd}'
+
+   }
+                      sh 'docker push javatechie/devops-integration'
+                   }
+               }
+           }
+           stage('Deploy to k8s'){
+               steps{
+                   script{
+                       kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+                   }
+               }
+           }
+       }
+   }
+9. Provide all the credentials (docker, AWS, ECS, Kubernetes etc..) to Jenkins credentials tab or Aws secret manager.
+10. Now goto the jenkins job/pipeline and configure/provide the path to read this file from the project.
+11. click on build now. from here whenever will do any changes on code and push to repo, jenkins will automatically
+    triggers and perform all the operation mention in the jenkins file.
+
+
+
 
 ####################################################################################
+
+        AWS EKS
+AWS EKS is a elastic kubernetes service provided by AWS.
+Its a fully managed service, only we have to create a cluster and run the docker containers.
+
+##############################################################
+
+        Apache Camel
+Apache Camel is an open-source integration framework that helps us quickly integrate systems that produce or consume data.
+its is a rule based routing engine, which supports domain specific (DSL) language.
+its provide the functionality of marshalling and unmarshalling.
+Ex: service 1 is providing the output in xml format.
+    service 2 is providing the output in json format.
+    then how this 2 service will communicate, here Apache camel will work.
+
+
+##############################################################
+*Default time of x-ray traces logs.
+ Relative: 6 hrs
+ Customs: 30 days
+
+*How networking works?
+ If I want to open https://youtube.com then what will happen in background
+ DNS->TCP/IP->TLS->DAL
+ 1. Once I hit a requst DNS will called (Domain name system)
+    It works like a address book, all the IP's of the url is saved here.
+ 2. Once DNS got the IP address, It will call TCP/IP protocol to make a connection
+ 3. Then TLS will call for the encryption
+ 4. Data access layer will called
+ 5. and finally sends response to the client.
+
 
 
 
