@@ -1,4 +1,4 @@
-package com.example.java8feature;
+package com.example.comparetwolist;
 
 import java.util.Arrays;
 import java.util.List;
