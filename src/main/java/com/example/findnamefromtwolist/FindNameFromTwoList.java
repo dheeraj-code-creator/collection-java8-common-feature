@@ -34,7 +34,7 @@ public class FindNameFromTwoList {
         // method 2 with the help of filter and map
     //  List<String> list = userList.stream().filter(k -> userIdNumberList.contains(k.getId())).map(n -> n.getName()).collect(Collectors.toList());
         List<String> list = userList.stream().filter(k -> userIdNumberList.contains(k.getId())).map(User::getName).collect(Collectors.toList());
-        System.out.println(list);
+        list.forEach(System.out::println);
 
     }
 }
