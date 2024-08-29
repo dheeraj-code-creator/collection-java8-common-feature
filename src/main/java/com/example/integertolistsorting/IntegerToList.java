@@ -11,6 +11,9 @@ public class IntegerToList {
         // convert to list and find out the second highest number
         int[] num = new int[]{10, 40, 80, 30, 20};
 
+        // directly find 2nd highest from Array
+        Arrays.stream(num).sorted().skip(num.length-2).limit(1).forEach(System.out::println);
+
         // java 7
         List<Integer> integerList = new ArrayList<>();
         for(int i: num){

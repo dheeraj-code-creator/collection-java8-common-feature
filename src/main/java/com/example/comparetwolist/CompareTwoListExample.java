@@ -16,8 +16,8 @@ public class CompareTwoListExample {
         List<String> list2 = Arrays.asList("A", "B", "C", "D");
 
         // compare two list are equal or not
-      //  boolean allMatch = list1.stream().allMatch(k -> list2.containsAll(k));
-        boolean allMatch = list1.stream().allMatch(list2::contains);
+        //   boolean allMatch = list2.stream().allMatch(k->list1.contains(k));
+        boolean allMatch = list2.stream().allMatch(list1::contains);
         System.out.println("is both list is equal: " + allMatch);
 
         // find out the similar value from both the list

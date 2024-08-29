@@ -22,6 +22,7 @@ migration of Legacy application on cloud.
 14) Java 8 and 17 new features
 
 java 8:
+
 Predicate
 Consumer
 Function
@@ -31,10 +32,34 @@ Optional
 TryWithResource
 
 java 17:
+
 Switch Pattern Matching
+Ex: switch (day) {
+              case 1 -> System.out.println("Monday");   // If day equals 1, print "Monday"
+              case 2 -> System.out.println("Tuesday");  // If day equals 2, print "Tuesday"
+              default -> System.out.println("Invalid day");
+            }
+
 Sealed classes
+Ex: public sealed class A permits B, C{
+
+    }
+
 Record classes
+Ex: public Record A (id, name){
+
+    }
+
 Text Blocks
+Ex: public String getBlockOfHtml() {
+       return """
+            <html>
+                <body>
+                    <span>example text</span>
+                </body>
+            </html>
+            """;
+    }
 
 15) Microservices Design pattern
 1. Api Gateway (Zuul or AWS API Gateway)     : entry point of all the Microservices.
@@ -65,6 +90,21 @@ iterator: having both methods next() and remove.
           Iterator is advance version of enumerator.
 
 Enumerator: Doesn't have remove() method.
+
+
+Exception handling:
+Example:
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<ErrorResponse> handleMyCustomException(MyCustomException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+}
 
 
 ################################################################################################
@@ -1048,7 +1088,7 @@ Its a fully managed service, only we have to create a cluster and run the docker
 ##############################################################
 
         Apache Camel
-Apache Camel is an open-source integration framework that helps us quickly integrate systems that produce or consume data.
+Apache Camel is an open-source Enterprise integration pattern framework that helps us quickly integrate systems that produce or consume data.
 its is a rule based routing engine, which supports domain specific (DSL) language.
 its provide the functionality of marshalling and unmarshalling.
 Ex: service 1 is providing the output in xml format.

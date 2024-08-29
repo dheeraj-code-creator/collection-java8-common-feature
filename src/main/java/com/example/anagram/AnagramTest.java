@@ -2,6 +2,7 @@ package com.example.anagram;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class AnagramTest {
 
@@ -24,6 +25,15 @@ public class AnagramTest {
             System.out.println("Str1 and Str2 both are Anagram");
         }else{
             System.out.println("Str1 and Str2 are Not Anagram");
+        }
+
+        // Java 8
+        boolean equals = Arrays.stream(str1.split("")).sorted().collect(Collectors.joining()).equals(
+                Arrays.stream(str2.split("")).sorted().collect(Collectors.joining()));
+        if(equals){
+            System.out.println("anagram");
+        }else{
+            System.out.println("not a anagram");
         }
 
         // with the help of reverse() function
