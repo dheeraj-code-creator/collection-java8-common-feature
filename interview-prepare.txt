@@ -1003,7 +1003,7 @@ Steps to deploy microservices with the help of Docker and ECS?
 11. Once task is running successfully on cluster we will get a public ip to hit on browser.
 
 ------------------------------------------------------------------------------------------------
-              with Jenkins tools
+              with Jenkins console
 1. commit and push the code to any repository version control tool (Github, Bitbucket etc..)
 2. install the jenkins to your machine (local, dev, prod etc)
 3. integrate your repository with jenkins.
