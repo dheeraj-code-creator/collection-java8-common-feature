@@ -1,3 +1,26 @@
+
+Conversation opened. 1 unread message.
+
+
+Skip to content
+Using Gmail with screen readers
+
+16 of 19,363
+prepare
+Inbox
+
+Dheeraj Kumar
+Attachments
+Mon, Sep 16, 5:07 PM (21 hours ago)
+to me
+
+ 
+
+
+
+The contents of this e-mail and any attachment(s) may contain confidential or privileged information for the intended recipient(s). Unintended recipients are prohibited from taking action on the basis of information in this e-mail and using or disseminating the information, and must notify the sender and delete it from their system. LTIMindtree will not accept responsibility or liability for the accuracy or completeness of, or the presence of any virus or disabling code in this e-mail.
+ One attachment
+  •  Scanned by Gmail
 Introduction:
 
 Hi I am Dheeraj Kumar.
@@ -62,6 +85,7 @@ Ex: public String getBlockOfHtml() {
     }
 
 15) Microservices Design pattern
+
 1. Api Gateway (Zuul or AWS API Gateway)     : entry point of all the Microservices.
 2. Asynchronous messaging (Kafka or AWS SQS) : Acts as broker where producer produce the msg and receiver recieve the msg.
 3. Fault tolerance (Circuit breaker)         : Hystrix
@@ -70,15 +94,26 @@ Ex: public String getBlockOfHtml() {
 6. Decomposition                             : Breaks monolithic application to module based application.
 7. Service registry and locator              : Eureka
 8. 1 Db per service
+9. SAGA design pattern                       : Kafka
 
 16) Microservice Orchestration and Choreography?
-                  OR
-          Transaction Rollback
-Orchestration: One service will manage other services.
-                 Ex: Kubernetes (on-premises)
-                     ECS (Fargate/EC2 cloud)
-Choreography : event driven services, all microservice will managed based on the event.
-                 Ex: Kafka
+                      OR
+    SAGA design pattern
+                      OR
+    Transaction management across all microservices which is having different DB.
+
+Orchestration: API orchestration
+               One service will manage other services, if any transaction got failed it notifies other services to
+               rollback or delete the transaction.
+               service A will manage service B, C, D
+               Service A will be anything (a microservice or lambda function anything)
+
+               example of container orchestration is below:
+               Ex: Kubernetes (on-premises)
+                   ECS (Fargate/EC2 cloud)
+
+Choreography:  Real time event driven services, all microservice will managed based on the event.
+               Ex: Kafka
 
 
 
@@ -462,6 +497,20 @@ Ans: Read_Committed
 	 Repeatable_read
 	 Serializable
 	  syntax: @Transactional(isolation = Isolation.Read_Committed)
+
+* If all the services is connected to 1 DB in this case we can use springboot transaction propogation for DB rollback or other operation.
+* If all the services is having their own DB in this case we can use cheoreography SAGA pattern (Kafka) to handle DB rollback or other operation.
+
+* How to configure external DB in spirng boot
+1. By default springboot provides H2 database (Hikari datasource)
+2. remove H2 database from POM.xml
+3. add external database dependency
+4. add all properties(db url, db username, db password, spring.jpa.hibernate.ddl-auto=update) in application.properties file
+5. mark your pojo class with @Entity
+
+* @Autowired is comes under which autowire modes?
+  by-type (If spring container doesn't have any bean with type then container will find with by-name also.)
+
 	  
 28) Difference between Put and Patch?
 Ans: POST: Create new resource
@@ -475,6 +524,10 @@ Ans: POST: Create new resource
 30) Diff between stream and parallel stream?	
     Stream perform sequentially, single thread will process the opertion.
 	Parallel Stream perform parallely, multiple thread will process the operation.
+
+* Diff between map and flatmap?
+Map:     produces one output for one input value, one to one mapping
+Flatmap: produces multiple output for one input value, one to many mapping.
 
 1) Difference between @pathVariable and @pathParam
 @pathVariable: extracts the variable from URL.
@@ -582,6 +635,8 @@ Looks like your repository is in a different package and spring context is not a
    AWS lambda: its a compute service, an event driven serverless computing platform provided by AWS.
    Serverless: Pay for use
                No need to worry about the servers.
+               if number of request is huge/traffic is more, lambda will automatically create the execution environment from the concurrency limit.
+               default concurrency is 1000 for all the lambda functions in a particular region.
 			   
 2) what is horizontal and vertical scalling in AWS lambda?
    Horizontal: increase the number of instances.
@@ -606,13 +661,15 @@ Looks like your repository is in a different package and spring context is not a
        Prod is pointing to version 2
        through Alias we can also do blue green deployment 50% traffic is going to version 1 and 50% to version 2
  
-6) Bydefault Concurrency/unreserved concurrency limit : 1000 (we can change it with AWS support team)
-             reserved concurrency limit : anything below 1000
-   provisioned concurrency (before invoking the lambda code is loaded and container is ready to run) more costly
+6) Bydefault concurrency limit : 1000 (All lambda in a particular region will share the same concurrency. we can change it with AWS support team)
+             reserved concurrency limit : we can set some amount of concurrency from 1000 to a most priority lambda. so that other lambda
+                                          cann't use that reserved concurrency.
+             provisioned concurrency (before invoking the lambda code is loaded and container is ready to run) more costly
  
 7) what is cold and warm start in AWS Lambda?
    cold start: time between invoking of lambda and running of lambda.
                lambda lifecycle: invoke->micro container created->loading lambda code->running lambda
+                                 invoke -> load -> execute
    warm start: provisioned concurrency (before invoking the lambda, code is loaded and container is ready to run)
 
 8) What is Lambda Layer?
@@ -731,6 +788,30 @@ How to handle/increase the performance of the application?
 2. Use single database per application (Any DB)
 3. Do proper scalling based on the traffic. (Kubernetes, any load balancer)
 4. Use any Cache mechanism (Redis, inMemory cache) reduce number of calls to DB.
+
+
+Elastic Load Balancing supports the following types of load balancers:
+
+Application Load Balancers
+Classic Load Balancers
+Network Load Balancers
+Gateway Load Balancers
+
+user request -> Apigateway -> Load balancer -> EC2 instances
+                or
+user request -> Apigateway -> Load balancer -> AWS Lambda (No use of load balancer, bcz lambda itself do the scale up and scale down the
+                                                           execution env based on concurrency limit.
+                                                           1 use is with the help of load balancer we can create rules and call the diff lambdas
+                                                           ex http: call default lambda
+                                                              https: call login lambda etc..)
+
+
+
+* Diff between Apigateway and Load balancer
+Apigateway:     single entry point for client which manages API request to the backend services.
+                manages: Authentication, Authorization, routing requests etc.
+Load Balancer:  Manages the load/traffic to different instances.
+                manage: scale up or scale down
 
 #############################################################
 How you manage/provide security to the Application
@@ -851,6 +932,10 @@ extension: k8sDeployment.yml
 How you manage the different env in k8s?
 Created only one file k8s.yaml
 with the help of namespace distributed the env.
+
+* what is configMap and secret in k8s
+configMap: used to store db configuration (hostname, url, data stores as a plain text) we have to create configMap.yaml file
+secret:    used to store (username, passwords, data stores in encrypted format) we have to create secret.yaml file
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1110,14 +1195,11 @@ Ex: service 1 is providing the output in xml format.
  3. Then TLS will call for the encryption
  4. Data access layer will called
  5. and finally sends response to the client.
+ 
+ * Difference between Stop and Terminate the instances
+ Stop:      stopping an instance means we are shutting down the instance for a particular time period.
+ Terminate: Terminating an instance means we are deleting the whole configuration,and all the settings.
+            which cannot be recovered. 
 
-
-
-
-
-	 
-	 
-	 
-	 
-
-				 
+* where you store the artifact?
+  Nexus repository
