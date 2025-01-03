@@ -8,11 +8,17 @@ import java.util.stream.Collectors;
 public class IntegerToList {
     public static void main(String[] args) {
 
-        // convert to list and find out the second highest number
         int[] num = new int[]{10, 40, 80, 30, 20};
 
-        // directly find 2nd highest from Array
+        // integer to List
+        // java 8, find 2nd highest number and convert to List<Integer>
+        List<Integer> list = Arrays.stream(num).mapToObj(k->(int)k).sorted((o1, o2)->o2.compareTo(o1)-o1.compareTo(o2)).skip(1).limit(1)
+                .collect(Collectors.toList());
+        System.out.println(list);
+
+        // java 8, find 2nd highest number
         Arrays.stream(num).sorted().skip(num.length-2).limit(1).forEach(System.out::println);
+
 
         // java 7
         List<Integer> integerList = new ArrayList<>();
@@ -21,10 +27,7 @@ public class IntegerToList {
         }
         System.out.println(integerList);
 
-        // java 8
-        List<Integer> list = Arrays.stream(num).mapToObj(k->(int)k).sorted((o1, o2)->o2.compareTo(o1)-o1.compareTo(o2)).skip(1).limit(1)
-                .collect(Collectors.toList());
-        System.out.println(list);
+
     }
 
 
