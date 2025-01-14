@@ -1,26 +1,3 @@
-
-Conversation opened. 1 unread message.
-
-
-Skip to content
-Using Gmail with screen readers
-
-16 of 19,363
-prepare
-Inbox
-
-Dheeraj Kumar
-Attachments
-Mon, Sep 16, 5:07 PM (21 hours ago)
-to me
-
- 
-
-
-
-The contents of this e-mail and any attachment(s) may contain confidential or privileged information for the intended recipient(s). Unintended recipients are prohibited from taking action on the basis of information in this e-mail and using or disseminating the information, and must notify the sender and delete it from their system. LTIMindtree will not accept responsibility or liability for the accuracy or completeness of, or the presence of any virus or disabling code in this e-mail.
- One attachment
-  •  Scanned by Gmail
 Introduction:
 
 Hi I am Dheeraj Kumar.
@@ -33,19 +10,234 @@ creation of AWS lambda.
 integration of various AWS services.
 migration of Legacy application on cloud.
 
-1) HashMap implementation                             (Complete)
-2) Difference between Iterator and Enumerator         (Complete)
-5) Thread Max priority				                  (Complete)
+1) HashMap implementation
+2) Difference between Iterator and Enumerator
+Difference between Iterator and Enumerator
+iterator: having both methods next() and remove.
+          We can change the existing collection while doing remove() method
+          if iterator will change the collection then its fine, if collection itselfs change the data
+              while doing iteration then will get ConcurrentModificationException.
+          Iterator is advance version of enumerator.
+Enumerator: Doesn't have remove() method.
+
+5) Thread Max priority
    Max: 10, Min: 1, Default: 5
-6) Anonymous class, Local inner class, static nested class in java 			      (Complete)
+6) Anonymous class, Local inner class, static nested class in java
 7) Comparable and comparator
 10) Exception Handling  (Complete)
 12) Difference between Arraylist and LinkedList?
-13) Design pattern (Factory DP, Singelton DP, Builder DP, Prototype DP)
-14) Java 8 and 17 new features
+13) Design pattern (Factory DP, Singelton DP, Builder DP, Prototype DP, Aggregator DP)
 
+* What will happen If we use clone() method with singelton object
+  It will break singelton pattern.
+  to avoid this we have to override Object class clone method and we have to throw cloneNotSupportedException
+  steps: implements Cloneable interface and override clone method.
+
+* What is marker interface? and what is the uses?
+    An interface which doesn't have any methods, fields is called marker interface.
+    Example: Serializable, Cloneable, Remote.
+    uses: conversion of Object to a file. when we want to write object details to a file, or send data over the network between two system.
+
+* What is Volatile keyword? and what is the uses?
+    A keyword which directly writes data to DB or Harddisk is called volatile keyword, it doesn't uses any cache mechanism.
+    uses: frequently updates ex: cricket match.
+          User 1 is reading data from cache.
+          User 2 is updating data to DB.
+          A mismatch will happen because cache is not up to date with DB frequently. bcz of this reason we can use Volatile keyword for
+          both User1 and User2 so that User1 directly read from the DB and User2 directly do the updates on DB.
+
+* What is class loader and its types?
+    Class loader loads the classes from different packages to the JVM for the execution,
+    types: Application/System class loader: loads classes from classpath.
+           Bootstrap class loader : loads classes from jre/lib/rt.jar
+           extension class loader : loads classes from jre/lib/ext dir..
+
+* What is memory leakage and how to prevent it?
+  In java GC will takes care of memory leakage part, but after this also will get outOfMemory error.
+  1. Creation of unnecessary objects which is not in used causes memory leaks.
+  2. Creation of Session or Connection objects but not closing it, also causes memory leaks.
+  2. Creation of static variables also causes memory leaks bcz the scope of static is lifetime of the application.
+
+  Prevention:
+  1. remove all the unused objects.
+  2. try to close all the sessions and connections properly.
+
+
+* How to handle/increase the performance of the application?
+1. Use containerization (Ex: Docker)
+2. Use single database per application (Any DB)
+3. Do proper scalling based on the traffic. (load balancer)
+4. Use any Cache mechanism (Redis, inMemory cache) reduce number of calls to DB.
+
+
+* How to mock static methods, fields, constructors and final class, methods
+Powermock
+@RunWith(PowerMockRunner.class)
+PowerMockito.mockStatic() method
+
+* Diff between @mock and @injectMock
+  @InjectMocks: creates an instance of the class, used when we want to execute the actual method call.
+  @mock: creates a mock object, some dummy data.
+
+  Ex:
+  class Game {
+        private Player player;
+    }
+
+  class Player {
+
+  }
+
+  @RunWith(MockitoJUnitRunner.class)
+  class GameTest {
+      @InjectMocks
+        Game game;
+
+      @Mock
+      Player player;
+  }
+
+* where you store the artifact?
+  Nexus repository
+
+* 2 tier architecture
+  client -> Database
+
+* 3 tier architecture
+  client -> server(application server) -> Database
+
+20) Which Collection maintains insertion order and doesn't allow duplicates
+	LinkedHashSet
+
+6) can we serialize singleton class and it's instance?
+Ans: If singleton class is Serializable, you can serialize the singleton instance. Once it is serialized,
+you can deserialize it but it will not return the singleton object.
+To resolve this issue, you need to override the readResolve() method that enforces the singleton.
+It is called just after the object is deserialized. It returns the singleton object.
+
+8) What is serialization and deserialization? where it can be used? can we serialize static data member and function? can subclass is also
+   serialized if parent is serialized? how can we make a class is serializable? while deserialization of class does serializable interface
+   need to be implements?
+Ans: conversion of object to a stream/flat file i.e serialization.
+     conversion of flat file/stream to a object i.e deserialization.
+     it is used in some messaging services (JMS, Kafka, or stored a file in DB for later usages)
+     No we cannot serialize static data member and member function, bcz static is class level variable not object level.
+     yes, if parent is serialized subclass also serialized.
+     we need to implements serializable interface.
+     No, while deserialization no need to implements serializable interface.
+
+7) what is wrapper classes/ what is boxing and unboxing?
+Ans: conversion of primitive datatype to wrapper class i.e boxing.
+     conversion of wrapper class to primitive datatype i.e unboxing.
+     After jav 1.5 it provides automatically conversion mechanism.
+
+13) when you are going to use Arraylist and when LinkedList?
+Ans: LinkedList- Storing and deleting of data. internally uses doubly linked list
+     ArrayList- searching of data. internally uses dynamic array
+
+15) Can we have constructor in Abstract class?
+Ans: Yes
+
+what is the use of constructors in abstract class, if we cannot create the object of abstract class?
+  Constructor is used for initialization, once subclass will extends the abstract class, and will create
+  the object of subclass on that time it will call parent class constructor with the help of super();
+
+  public abstract class LowesExample1 {
+
+	private int x;
+	private int y;
+
+	public LowesExample1(int x, int y) {
+		this.x =x;
+		this.y =y;
+	}
+
+	public abstract void display();
+
+	public void show() {
+		System.out.println("non abstract method");
+	}
+
+}
+
+public class LowesExample2 extends LowesExample1{
+
+	public LowesExample2(int x, int y) {
+		super(x, y);
+		System.out.println(x+y);
+	}
+
+	public static void main(String[] args) {
+		LowesExample1 lowesExample2 = new LowesExample2(1,3);
+		lowesExample2.display();
+		lowesExample2.show();
+	}
+
+	@Override
+	public void display() {
+		System.out.println("abstract implemented methods");
+	}
+
+}
+output: 4
+
+16) Can we create an Abstract class without any abstract method?
+Ans: Yes
+
+Q. String str = new String("Hello") how many objects will be created?
+Ans: 2 objects (1 in heap and 1 in string constant pool)
+
+Q. How to create immutable class in java?
+Ans: Make class as final
+     make instanceVariable/datamembers as final
+	 initialize instance variable inside constructor.
+	 donot create setters only create getters.
+
+  public final class Employee{
+	final String pancardNumber;
+
+	public Employee(String pancardNumber){
+	this.pancardNumber=pancardNumber;
+	}
+	public String getPancardNumber(){
+	return pancardNumber;
+	}
+}
+
+Q. when will you go for interface and abstract?
+Ans: based on requiremts:
+     if you want to only extends one class go for Abstract.
+	 (A Class can only extends 1 class and implements many interfaces)
+	 if you want to implements more than one interface go for interface.
+	 (Interface extends many interfaces.)
+
+Q. Contract of hashcode
+Ans: 1) If two objects are equal, then they must have the same hash code.
+     2) If two objects have the same hash code, they may or may not be equal.
+
+17) what is difference between concurrent HashMap and HashTable?
+Ans: both are thread safe, but main difference is:
+     HashTable: make lock for all the Objects.
+	 ConcurrentHashMap:it will divide the code in different segments, and then make the lock for few objects.
+
+21) What is Collision
+    Collision means two object have the same hashcode, and both the key wil try to store in the
+	same bucket.
+	Resolution: Collision chaining, use equals method.
+
+18)	 Aggregation :
+	 has-a relationship
+	 entities are not dependent to each other.
+	 A Institute can have many students, but viceversa is not possible.
+
+	 Composition:
+	 has-a relationship
+	 entities are dependent to each other.
+	 Vehicle has a engine.
+
+###########################################################
 java 8:
-
+###########################################################
 Predicate
 Consumer
 Function
@@ -54,7 +246,54 @@ Foreach
 Optional
 TryWithResource
 
+Q. What is functional interface
+Ans: A interface which is having only one abstract method is called functional interface.
+
+Q. how many default and static method we can create in functional interface?
+Ans: 1 or more than 1
+
+Q. What is the use of default method in functional interfaces in java 8?
+   for Backtracking
+   Before Java 8, interfaces could have only abstract methods. The implementation of these methods has to be provided in a separate class.
+   So, if a new method is to be added in an interface, then its implementation code has to be provided in the class implementing the same interface.
+   To overcome this issue, Java 8 has introduced the concept of default methods which allow the interfaces to have methods
+   with implementation without affecting the classes that implement the interface.
+
+Q. Can we override default methods? and how
+Ans Its not mandatory but Yes we can override
+    we can call that method with the help of super.
+	interfacename.super.interfacemethodname
+
+	If we are using Only one interface in a Program then at a time we are using only a single default method and at
+	that time Overriding is not required.
+
+	But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default
+	Method is required. If we are using more than one interface and in both interfaces,
+	if both interfaces have the same name and same structure. So at that time,
+	one must override either one both the default method otherwise it will result in an error.
+
+Q. what is the use of functional interface/ lambda expression
+Ans: to pass a block of code to methods or objects. performing actions.
+
+* Idempotent HTTP method?
+  Put, Get, Delete
+
+29) what is stream?
+    Stream provides a pipeline where we can perform different operations. Stream doesnot modify actual source,
+    whenever we perform any operation it will return a new stream of data.
+
+30) Diff between stream and parallel stream?
+    Stream perform sequentially, single thread will process the opertion.
+	Parallel Stream perform parallely, multiple thread will process the operation.
+
+* Diff between map and flatmap?
+Map:     produces one output for one input value, one to one mapping
+Flatmap: produces multiple output for one input value, one to many mapping.
+
+
+###########################################################
 java 17:
+###########################################################
 
 Switch Pattern Matching
 Ex: switch (day) {
@@ -84,6 +323,10 @@ Ex: public String getBlockOfHtml() {
             """;
     }
 
+
+###########################################################
+Microservices
+###########################################################
 15) Microservices Design pattern
 
 1. Api Gateway (Zuul or AWS API Gateway)     : entry point of all the Microservices.
@@ -102,32 +345,65 @@ Ex: public String getBlockOfHtml() {
                       OR
     Transaction management across all microservices which is having different DB.
 
-Orchestration: API orchestration
+Orchestration: API orchestration (ECS, Kubernetes, AWS step function)
                One service will manage other services, if any transaction got failed it notifies other services to
                rollback or delete the transaction.
                service A will manage service B, C, D
                Service A will be anything (a microservice or lambda function anything)
 
-               example of container orchestration is below:
-               Ex: Kubernetes (on-premises)
-                   ECS (Fargate/EC2 cloud)
-
 Choreography:  Real time event driven services, all microservice will managed based on the event.
                Ex: Kafka
 
+When to use Orchestration and when to use Chorography?
+Orchestration: Tightly couple, synchronous process.
+                Ex: each service is dependent on Orchestrator
+                    If payment service is successful then it will notify the Orchestrator and Orchestrator will notify the Order service
+                    to complete the order.
 
 
-Difference between Iterator and Enumerator
-iterator: having both methods next() and remove.
-          We can change the existing collection while doing remove() method
-          if iterator will change the collection then its fine, if collection itselfs change the data
-              while doing iteration then will get ConcurrentModificationException.
-          Iterator is advance version of enumerator.
+Choreography:  Loosly couple, Asynchronous process.
+                Ex: event driven system, Producer will produce the messages to Kafka and based on the messages types consumer will
+                    come and consume the messages.
+                    ex: No dependency
+                        If Payment service is successful it will send payment event to Kafka, and Consumer service will consume this event
+                        and complete the order.
 
-Enumerator: Doesn't have remove() method.
+How you manage all microservices response?
+Ans: Aggregator DP (APIResponse class)
+
+* what is the use of Eureka service registry and locator
+  1. Eureka is having all microservices URL and port information, if client change the port on that time, we have to
+     contact the client, and our application will not able to consume untill and unless we will get the correct port or IP.
+     with the help of Eureka we can overcome of this situations.
+  2. Use: service A is calling to service B, both services register to eureka with application name. service A will call
+          service B with application name, now suppose service B is having 5 instances and out of 5 only 3 is up and running,
+          wo when we call service B Eureka will do monitor and provide only those instances which is up and running.
+
+* What happens when eureka server is down?
+To overcome of this situation we need to create more instances of Eureka, by default eureka is having peer1 and peer2 instances.
+If peer1 is down call will redirect to peer2.
 
 
-Exception handling:
+Advantages/benefits of Microservices
+1. light weight/loosely coupled, (It breaks monolithic application to module/service based. ex: shopping application)
+2. Deployment is easy bcz of light weight.
+3. No need to use external server springboot provides internal tomcat server for running microservices.
+4. Scalibility is easy. (microservices which is having more load will scale those only)
+5. Easy to test due to less dependency
+
+Disadvantages of Microservices
+1. Difficult to maintain if we have 1000 or 10000 of microservices.
+2. Higher chance of communication failure.
+
+
+Microservices versioning
+
+There are two ways to version microservices
+1. URI versioning (Ex: https://hostname:8080/v1/inventory)
+2. MediaType versioning (Ex: application/v1+json)
+
+
+Microservice Exception handling:
 Example:
 
 @ControllerAdvice
@@ -138,396 +414,32 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
 }
 
+Exception:
+NoSuchBeanDefinitionException: No qualifying bean of type
+solution:
+You might need to add the following to the main app class:
+@ComponentScan(basePackages = "Package where the repository is located”)
 
-################################################################################################
+Looks like your repository is in a different package and spring context is not able to pick it up when starting up.
+@ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
 
-Dynamo DB:
-1) It's a No-sql database.
-2) Data store as a key-value pair.
-3) Scalable based on the huge amount of data.
-4) No hardware porvisioning is required.
-
-Challenges on Migration of legacy services on cloud:
-1) Data storage
-In legacy application we have used oracle or sql database, so here we have to take care of the hardware provisioning based on
-amount of the data. bcz these database are not scalable.
-But On cloud no need to think about the hardware or infrastructure thing, also cloud services are scalable based on the amount
-of data. here we have migrated from SQL database to Dynamo DB.
-
-2) Cost optimization
-In Legacy application every time our instaces/nodes are running, it doesnot depends on the traffic, so the cost is high bcz
-many instances are running.
-But on cloud here we have scalable services which will increase/decrease the instances based on the traffic. so cost is less.
-here we have used Load balancer (Application load balancer).
- 
-3) Monitoring higher env
-Initially we have to open each services logs and we have to check which services is having a issue,
-but after Grafana monitoring tool its too easy to monitor each and every services.
-
-Database:
-
-1)   what is join?
-Ans: join means, it will join two or more tables based on the matching columns and create a resultant output table.
-     there are two types of Joins:	
-	Inner join
-	outer join
-
-	inner join: it will join two table's based on the matching data of the column and create new resultant table.
-	outer join: we have two types of outer join.
-		left outer join
-		right outer join
-	
-		left outer join: it will collect all data from left side(first table) if data not matched with right side(second table) it will assign null values.
-		right outer join: it will collect all data from right side(second table) if data not matched with left side(first table) it will assign null values.
-
-
-
-2) what is indexing?
-Ans: Indexing is just like to provide speed up to database engine to retrieve data from the database based on the column, its just like a reference pointer for 
-     example (in book we have a reference index on first page. ) it speed-up the process for where and select clause, but its slow down for insert and update statement
-     syntax: Create index index_name on table_name(column_name);
-     type of index:
-     1. unique index (only one column)
-         CREATE UNIQUE INDEX index_name on table_name (column_name);
-     2. composite index (multiple column)
-         CREATE INDEX index_name on table_name (column1, column2);
-     3. implicite index (automaticaly created by the database server when object is created)
-     4. Drop index (An index can be dropped using SQL DROP command. Care should be taken when dropping an index because performance may be slowed or improved)
-        DROP INDEX index_name;
-
-3) what is Casceding?
-Ans: Which means that when a Parent row is deleted (killed), no orphan row should stay alive in the Child table. 
-     All children of the parent row are killed (deleted), too. If any of these children has grandchildren (in another table through another foreign key) 
-	 and there is ON DELETE CASCADE defined, these should be killed, too (and all descendants, as long as there is a cascade effect defined.
-
-4) Difference between Primary key and Unique key and Foreign key?
-    Primary key:
-	1. cannot contains null values.
-	2. primary key is related with another table as a foreign key.
-    Unique key:
-	1. contains null values.
-	2. unique key is not related with another table as a foreign key.
-    Foreign key:
-	1. accepts more than one null values.
-	2. we can have one or more than one foreign key in a table.	
-	
-5) Difference between Drop,Truncate and Delete
-Ans: Drop: deletes the whole table along with schema, once done it cannot rollback.
-     Truncate: deletes the data of the table.
-	 Delete: deletes a particular record.
-
-6) can we serialize singleton class and it's instance?
-Ans: If singleton class is Serializable, you can serialize the singleton instance. Once it is serialized, 
-you can deserialize it but it will not return the singleton object.
-To resolve this issue, you need to override the readResolve() method that enforces the singleton. 
-It is called just after the object is deserialized. It returns the singleton object.
-
-8) What is serialization and deserialization? where it can be used? can we serialize static data member and function? can subclass is also
-   serialized if parent is serialized? how can we make a class is serializable? while deserialization of class does serializable interface
-   need to be implements?
-Ans: conversion of object to a stream/flat file i.e serialization.
-     conversion of flat file/stream to a object i.e deserialization.
-     it is used in some messaging services (JMS, Kafka, or stored a file in DB for later usages)
-     No we cannot serialize static data member and member function, bcz static is class level variable not object level.
-     yes, if parent is serialized subclass also serialized.
-     we need to implements serializable interface.
-     No, while deserialization no need to implements serializable interface.
-
-7) what is wrapper classes/ what is boxing and unboxing?
-Ans: conversion of primitive datatype to wrapper class i.e boxing.
-     conversion of wrapper class to primitive datatype i.e unboxing.
-     After jav 1.5 it provides automatically conversion mechanism.
-	  
-13) when you are going to use Arraylist and when LinkedList?
-Ans: LinkedList- Storing and deleting of data. internally usess doubly linked list
-     ArrayList- searching of data. internally usess dynamic array
-	  
-15) Can we have constructor in Abstract class?
-Ans: Yes
-
-what is the use of constructors in abstract class, if we cannot create the object of abstract class?
-  Constructor is used for initialization, once subclass will extends the abstract class, and will create
-  the object of subclass on that time it will call parent class constructor with the help of super();
-  
-  public abstract class LowesExample1 {
-	
-	private int x;
-	private int y;
-	
-	public LowesExample1(int x, int y) {
-		this.x =x;
-		this.y =y;
-	}
-	
-	public abstract void display();
-	
-	public void show() {
-		System.out.println("non abstract method");
-	}
-
-}
-
-public class LowesExample2 extends LowesExample1{
-	
-	public LowesExample2(int x, int y) {
-		super(x, y);
-		System.out.println(x+y);
-	}
-
-	public static void main(String[] args) {
-		LowesExample1 lowesExample2 = new LowesExample2(1,3);
-		lowesExample2.display();
-		lowesExample2.show();
-	}
-
-	@Override
-	public void display() {
-		System.out.println("abstract implemented methods");
-	}
-
-}
-
-output: 4
-   
-
-16) Can we create an Abstract class without any abstract method?
-Ans: Yes
-
-Q. String str = new String("Hello") how many objects will be created?
-Ans: 2 objects (1 in heap and 1 in string constant pool)
-
-Q. What is functional interface
-Ans: A interface which is having only one abstract method is called functional interface.
-
-Q. how many default and static method we can create in functional interface?
-Ans: 1 or more than 1
-
-Q. What is the use of default method in functional interfaces in java 8?
-   for Backtracking
-   Before Java 8, interfaces could have only abstract methods. The implementation of these methods has to be provided in a separate class.
-   So, if a new method is to be added in an interface, then its implementation code has to be provided in the class implementing the same interface.
-   To overcome this issue, Java 8 has introduced the concept of default methods which allow the interfaces to have methods
-   with implementation without affecting the classes that implement the interface.
-
-Q. Can we override default methods? and how
-Ans Its not mandatory but Yes we can override
-    we can call that method with the help of super.
-	interfacename.super.interfacemethodname
-
-	If we are using Only one interface in a Program then at a time we are using only a single default method and at
-	that time Overriding is not required.
-
-	But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default
-	Method is required. If we are using more than one interface and in both interfaces,
-	if both interfaces have the same name and same structure. So at that time,
-	one must override either one both the default method otherwise it will result in an error.
-	
-Q. what is the use of functional interface/ lambda expression
-Ans: to pass a block of code to methods or objects. performing actions.
-     
-
-Q. How to create immutable class in java?
-Ans: Make class as final
-     make instanceVariable/datamembers as final
-	 initialize instance variable inside constructor.
-	 donot create setters only create getters.
-	 
-  public final class Employee{  
-	final String pancardNumber;  
-  
-	public Employee(String pancardNumber){  
-	this.pancardNumber=pancardNumber;  
-	}   
-	public String getPancardNumber(){  
-	return pancardNumber;  
-	}   
-} 
-
-Q. when will you go for interface and abstract?
-Ans: based on requiremts:
-     if you want to only extends one class go for Abstract. 
-	 (A Class can only extends 1 class and implements many interfaces)
-	 if you want to implements more than one interface go for interface.
-	 (Interface extends many interfaces.)
-	 
-Q. Contract of hashcode
-Ans: 1) If two objects are equal, then they must have the same hash code. 
-     2) If two objects have the same hash code, they may or may not be equal. 
-
-17) what is difference between concurrent HashMap and HashTable?
-Ans: both are thread safe, but main difference is:
-     HashTable: make lock for all the Objects.
-	 ConcurrentHashMap:it will divide the code in different segments, and then make the lock for few objects.
-
-21) What is Collision
-    Collision means two object have the same hashcode, and both the key wil try to store in the
-	same bucket.
-	Resolution: Collision chaining, use equals method.
-	 
-18)	 Aggregation :
-	 has-a relationship
-	 entities are not dependent to each other.
-	 A Institute can have many students, but viceversa is not possible.
-	 
-	 Composition:
-	 has-a relationship
-	 entities are dependent to each other.
-	 Vehicle has a engine.
-	 
-19) Fault tolerance
-    Ex: explain Hystrix
-
-    Add the Hystrix dependency in pom.xml
-    At the top of the class add
-    @EnableCircuitBreaker on Class
-    @HystrixCommand on method. It takes a parameter  fallbackMethod which is the name of the method to which the request will be redirected
-
-    @RestController
-    @SpringBootApplication
-    @EnableCircuitBreaker
-    public class SimpleClientApplication {
-      @GetMapping
-      @HystrixCommand(fallbackMethod = "defaultProductList")
-      public String cloudProductList() {
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = URI.create("http://localhost:8090/products");
-
-        return restTemplate.getForObject(uri, String.class);
-      }
-    public List<String> defaultProductList() {
-        return Arrays.asList("spring cloud");
-      }
-	
-20) Which Collection maintains insertion order and doesn't allow duplicates
-	LinkedHashSet
-
-	
-22) Different Bean scopes in spring
-	Singleton
-	Prototype
-	Session
-	Request
-	Global Session
-	
-23) Autowiring modes
-	ByName
-	ByType
-	ByContructor
-	No
-	
-*)Difference between @Configuration and @Component
-  @Configuration: Used to declare multiple beans, so that spring-context will know this is the class where all the beans are
-                declared.
-  @Component:     Used for class-path scanning, auto-detection of the packages and classes.
-
-*)What is the use of @Qualifier annotation
-  @Qualifier:     It resolves the conflict of similar bean definition.
-
-*)Connection between two datasource in springboot
-  application.properties
-#first db
-spring.datasource.url = [url]
-spring.datasource.username = [username]
-spring.datasource.password = [password]
-spring.datasource.driverClassName = oracle.jdbc.OracleDriver
-
-#second db ...
-spring.secondDatasource.url = [url]
-spring.secondDatasource.username = [username]
-spring.secondDatasource.password = [password]
-spring.secondDatasource.driverClassName = oracle.jdbc.OracleDriver
-
-  create two datasources
-@Bean
-@Primary
-@ConfigurationProperties(prefix="spring.datasource")
-public DataSource primaryDataSource() {
-    return DataSourceBuilder.create().build();
-}
-
-@Bean
-@ConfigurationProperties(prefix="spring.secondDatasource")
-public DataSource secondaryDataSource() {
-    return DataSourceBuilder.create().build();
-}	
-
-    When you want to use any of the database use @Qualifier
-@Qualifier("spring.secondDatasource")
-	
 24) What all are 12 Factor of Microservices
-	Codebase: ex use version control for microservices
-	dependency
+
+    Security
+    performance
+    scalibility
+    port binding
+    dependency
+    mointoring
+    versioning
+    dev/prod integration
 	build, release, run
 	config
-	port binding
 	logs
-	monitoring
-	Concurrency
-	Disposability
 	Backing services
 	process
-	dev/prod integration
-
-25) Functional vs Non functional requierements
-                   OR
-    Behavioural vs Non Behavioural requierements	
-    Functional: what the System should do, what will be input and what the service will provide the output.
-    Non-Functional: How the System Work.
-                    Performance
-				    Security
-					Scalibility
-					Maintainbility
-					portablity
-					
-26) What are the Transaction propagation provided by spring boot?
-Ans: Required
-	 Requires_New
-	 Supports
-	 Not_supported
-	 Never
-	 Mandatory
-	  syntax: @Transactional(propagation = Propogation.Required)
-	 
-27) What are the transaction isolation provided by spring boot?
-Ans: Read_Committed
-	 Read_Uncommitted
-	 Repeatable_read
-	 Serializable
-	  syntax: @Transactional(isolation = Isolation.Read_Committed)
-
-* If all the services is connected to 1 DB in this case we can use springboot transaction propogation for DB rollback or other operation.
-* If all the services is having their own DB in this case we can use cheoreography SAGA pattern (Kafka) to handle DB rollback or other operation.
-
-* How to configure external DB in spirng boot
-1. By default springboot provides H2 database (Hikari datasource)
-2. remove H2 database from POM.xml
-3. add external database dependency
-4. add all properties(db url, db username, db password, spring.jpa.hibernate.ddl-auto=update) in application.properties file
-5. mark your pojo class with @Entity
-
-* @Autowired is comes under which autowire modes?
-  by-type (If spring container doesn't have any bean with type then container will find with by-name also.)
-
-	  
-28) Difference between Put and Patch?
-Ans: POST: Create new resource
-     Put:  Update existing resource if present otherwise create new resource
-     Patch: replace the particular filed
-	 
-29) what is stream?
-    Stream provides a pipeline where we can perform different operations. Stream doesnot modify actual source,
-    whenever we perform any operation it will return a new stream of data.
-
-30) Diff between stream and parallel stream?	
-    Stream perform sequentially, single thread will process the opertion.
-	Parallel Stream perform parallely, multiple thread will process the operation.
-
-* Diff between map and flatmap?
-Map:     produces one output for one input value, one to one mapping
-Flatmap: produces multiple output for one input value, one to many mapping.
 
 1) Difference between @pathVariable and @pathParam
 @pathVariable: extracts the variable from URL.
@@ -568,20 +480,136 @@ Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBo
         }
 	 }
 
-Exception:
-NoSuchBeanDefinitionException: No qualifying bean of type
-solution:
-You might need to add the following to the main app class:
-@ComponentScan(basePackages = "Package where the repository is located”)
+19) Fault tolerance
+    Ex: explain Hystrix
 
-Looks like your repository is in a different package and spring context is not able to pick it up when starting up.
-@ComponentScan(basePackages = "ilogstc.gis.usermgmt.reader")
-					
-==============================================================================================================
+    Add the Hystrix dependency in pom.xml
+    At the top of the class add
+    @EnableCircuitBreaker on Class
+    @HystrixCommand on method. It takes a parameter  fallbackMethod which is the name of the method to which the request will be redirected
+
+    @RestController
+    @SpringBootApplication
+    @EnableCircuitBreaker
+    public class SimpleClientApplication {
+      @GetMapping
+      @HystrixCommand(fallbackMethod = "defaultProductList")
+      public String cloudProductList() {
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create("http://localhost:8090/products");
+
+        return restTemplate.getForObject(uri, String.class);
+      }
+    public List<String> defaultProductList() {
+        return Arrays.asList("spring cloud");
+      }
+
+25) Functional vs Non functional requierements
+                   OR
+    Behavioural vs Non Behavioural requierements
+    Functional: what the System should do, what will be input and what the service will provide the output.
+    Non-Functional: How the System Work.
+                    Performance
+				    Security
+					Scalibility
+					Maintainbility
+					portablity
 
 
+###########################################################
+      Spring boot
+###########################################################
+26) What are the Transaction propagation provided by spring boot?
+Ans: Required
+	 Requires_New
+	 Supports
+	 Not_supported
+	 Never
+	 Mandatory
+	  syntax: @Transactional(propagation = Propogation.Required)
+
+27) What are the transaction isolation provided by spring boot?
+Ans: Read_Committed
+	 Read_Uncommitted
+	 Repeatable_read
+	 Serializable
+	  syntax: @Transactional(isolation = Isolation.Read_Committed)
+
+* If all the services is connected to 1 DB in this case we can use springboot transaction propogation for DB rollback or other operation.
+* If all the services is having their own DB in this case we can use cheoreography SAGA pattern (Kafka) to handle DB rollback or other operation.
+
+* How to configure external DB in spirng boot
+1. By default springboot provides H2 database (Hikari datasource)
+2. remove H2 database from POM.xml
+3. add external database dependency
+4. add all properties(db url, db username, db password, spring.jpa.hibernate.ddl-auto=update) in application.properties file
+5. mark your pojo class with @Entity
+
+* @Autowired is comes under which autowire modes?
+  by-type (If spring container doesn't have any bean with type then container will find with by-name also.)
+
+
+28) Difference between Post, Put and Patch?
+Ans: POST: Create new resource
+     Put:  Update existing resource if present otherwise create new resource
+     Patch: replace the particular filed
+
+22) Different Bean scopes in spring
+	Singleton (The default scope, where a single instance of a bean is created and shared across all requests)
+	Prototype (A new instance of a bean is created each time it is requested.)
+	Session (A new instance of a bean is created for each user session)
+	Request (A new instance of a bean is created for each HTTP request)
+	Global Session (A new instance of a bean is created for entire session)
+
+23) Autowiring modes
+	ByName
+	ByType
+	ByContructor
+	No
+
+*)Difference between @Configuration and @Component
+  @Configuration: Used to declare multiple beans, so that spring-context will know this is the class where all the beans are
+                declared.
+  @Component:     Used for class-path scanning, auto-detection of the packages and classes.
+
+*)What is the use of @Qualifier annotation
+  @Qualifier:     It resolves the conflict of similar bean definition.
+
+*)Connection between two datasource in springboot
+  application.properties
+#first db
+spring.datasource.url = [url]
+spring.datasource.username = [username]
+spring.datasource.password = [password]
+spring.datasource.driverClassName = oracle.jdbc.OracleDriver
+
+#second db ...
+spring.secondDatasource.url = [url]
+spring.secondDatasource.username = [username]
+spring.secondDatasource.password = [password]
+spring.secondDatasource.driverClassName = oracle.jdbc.OracleDriver
+
+  create two datasources
+@Bean
+@Primary
+@ConfigurationProperties(prefix="spring.datasource")
+public DataSource primaryDataSource() {
+    return DataSourceBuilder.create().build();
+}
+
+@Bean
+@ConfigurationProperties(prefix="spring.secondDatasource")
+public DataSource secondaryDataSource() {
+    return DataSourceBuilder.create().build();
+}
+
+    When you want to use any of the database use @Qualifier
+@Qualifier("spring.secondDatasource")
+
+
+===========================================
                 Cloud
-         ===========================================
+===========================================
 1) What is cloud?
    On demand services over the internet is called cloud. and managing those services/resources is called computing.
 
@@ -591,8 +619,10 @@ Looks like your repository is in a different package and spring context is not a
 					 Hybrid cloud -> combination of both  (internet cafe)
 
 	Service model:   IAAS: Netork managed/ EC2 instance managed, used by IT administrator.. (EC2)
-	                 PAAS: Amazon web services, used by software developers.. (S3, SNS, SQS, Dynamo DB)
-					 SAAS: Gmail, Goodle drive, directly used by everyone.
+	                 PAAS: Amazon web services, used by software developers.. (EBS Elastic Bean stalk)
+					 SAAS: Gmail, Google drive, directly used by everyone.
+					 CAAS: ECS, Fargate
+					 FAAS: Serverless (Lambda)
 
 3) differnece between cloud computing and on premises? advantages and disadvantages?
    On premises:- Physical server or softwares which is located/installed inside the organization.
@@ -601,48 +631,49 @@ Looks like your repository is in a different package and spring context is not a
    Cloud computing: Virtual servers or software services provided by third party/vendor through web application.
                  Ex: Gmail, Google drive, (no need to install directly run on browser)
 ================================================================
-				
+
 				AWS: S3
 			===========
 1) what are the stoarage classes in S3?
-   S3 Standard
-   S3 one zone
-   S3 Intelligent tiering
-   Amazon Glacier
-   Amazon Glacier Deep archiving.
-   
+   S3 Standard (frequent access, >=3 AZ's)
+   S3 Standard IA (Infrequent access, >=3 AZ's)
+   S3 one zone  (only one AZ's availability zone)
+   S3 Intelligent tiering (>=3 AZ's)
+   S3 Glacier (>=3 AZ's)
+   S3 Glacier Deep archiving. (>=3 AZ's)
+
 2) what is frequent and Infrequent data access?
    Frequent: daily basis
    Infrequent: once in a month
-   
+
 3) what is versioning in S3?
    Versioning means keeping multiple variants of single object in the same bucket.
    we can use versioning to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket.
    With versioning, you can easily recover from both unintended user actions and application failures.
-   
+
 4) what is object lock in S3?
    Create a new bucket with Object Lock enabled.
-   
+
 5) what is ACL (Access Control List)
    Grant basic read/write permissions to other AWS accounts.
-   
+
 6) what is CORS (Cross Origin Resource Sharing)
    It usess in client web applications where resources from one domain will interact with the resources in a different domain.
-   
+
                   AWS Lambda
-				=============================  
+				=============================
 1) what is AWS lambda and serverless?
    AWS lambda: its a compute service, an event driven serverless computing platform provided by AWS.
    Serverless: Pay for use
                No need to worry about the servers.
                if number of request is huge/traffic is more, lambda will automatically create the execution environment from the concurrency limit.
                default concurrency is 1000 for all the lambda functions in a particular region.
-			   
+
 2) what is horizontal and vertical scalling in AWS lambda?
    Horizontal: increase the number of instances.
    vertical: increase the memory.
 
-3) Max exection time in lambda
+3) Max execution time in lambda
    15 min.
 
 4) how bill will be generate for lambda function?
@@ -660,12 +691,12 @@ Looks like your repository is in a different package and spring context is not a
    ex: Dev is pointing to version 1
        Prod is pointing to version 2
        through Alias we can also do blue green deployment 50% traffic is going to version 1 and 50% to version 2
- 
+
 6) Bydefault concurrency limit : 1000 (All lambda in a particular region will share the same concurrency. we can change it with AWS support team)
              reserved concurrency limit : we can set some amount of concurrency from 1000 to a most priority lambda. so that other lambda
                                           cann't use that reserved concurrency.
              provisioned concurrency (before invoking the lambda code is loaded and container is ready to run) more costly
- 
+
 7) what is cold and warm start in AWS Lambda?
    cold start: time between invoking of lambda and running of lambda.
                lambda lifecycle: invoke->micro container created->loading lambda code->running lambda
@@ -680,6 +711,8 @@ Looks like your repository is in a different package and spring context is not a
 
 latency
 	Measures the time delay when sending data from source to destination.
+	low latency: application is availaible on multiple region.(London, Mumbai, Sydney, New York etc..)
+	              Request and Response will be faster.(Customer from mumbai wants to send request they will send Mumbai data center, no need to send on London data center)
 throughput
 	Volume of data, how much data/request user can transmit in a period of time.
 	1000 req/sec
@@ -691,20 +724,18 @@ throttled
 replica
     Object/Instances
 
-   
-
-      
-
-                    AWS API Gateway
-                =====================================
-1) What is Api gateway?
-   used for creating, monitoring, and publishing API's.		
+=====================================
+        AWS API Gateway
+=====================================
+1) What is Apigateway?
+   used for creating, monitoring, and publishing API's.
+   it's a serverless service
 
 2) what are the type of API we can create?
    Http api (CORS support) works based on protocols, some rules are defined based on that it will work.
    Rest api (complete control over the req and response) architecutral style.
    Rest api private (accessable only with in a VPC)
-   websocket api (real time use application such as: chatbox, or dashboards) 
+   websocket api (real time use application such as: chatbox, or dashboards)
 
 3) steps to create Api
    create api->choose api types->create resource->create method(put,post,get etc)->integrate with(lambda, vpc, etc)->deploy api
@@ -714,7 +745,7 @@ replica
                       Redis
                 ===============================================
 1) what is Redis (Remote dictionary server)
-   Redis is an open source, fast, inmemory, key-value data store.		
+   Redis is an open source, fast, inmemory, key-value data store.
 
                       SNS and SQS
                ================================================
@@ -726,25 +757,57 @@ When to use: For Christmas Eve send the offer details to all the subscribers.
 
 SQS is a distributed message service.
 It works on Pull mechanism, Reciever has to pull the messages one by one. at a time only one consumer.
-SQS persist the messages, 
-When to use: For a batch job, after each jobs completion messages are stored to the SQS and backend-services pull the messages 
+SQS persist the messages,
+When to use: For a batch job, after each jobs completion messages are stored to the SQS and backend-services pull the messages
              one by one.
 Max polling/wait time is 20 Seconds.
 Default hold time for a single message in SQS = 4 days, we can make it to 14 days also.
+
+
+ * Difference between Stop, Terminate and Hibernate the instances
+ Stop:      stopping an instance means we are shutting down the instance for a particular time period.
+ Terminate: Terminating an instance means we are deleting the whole configuration,and all the settings.
+            which cannot be recovered.
+ Hibernate: Hibernate means all data will be saved to hardisk from RAM, and isntance will be in stop state,
+            the instance will be resume from its previous state.
+
+Dynamo DB:
+1) It's a No-sql database.
+2) Data store as a key-value pair.
+3) Scalable based on the huge amount of data.
+4) No hardware porvisioning is required.
+
+Challenges on Migration of legacy services on cloud:
+1) Data storage
+In legacy application we have used oracle or sql database, so here we have to take care of the hardware provisioning based on
+amount of the data. bcz these database are not scalable.
+But On cloud no need to think about the hardware or infrastructure thing, also cloud services are scalable based on the amount
+of data. here we have migrated from SQL database to Dynamo DB.
+
+2) Cost optimization
+In Legacy application every time our instaces/nodes are running, it doesnot depends on the traffic, so the cost is high bcz
+many instances are running.
+But on cloud here we have scalable services which will increase/decrease the instances based on the traffic. so cost is less.
+here we have used Load balancer (Application load balancer).
+
+3) Monitoring higher env
+Initially we have to open each services logs and we have to check which services is having a issue,
+but after Grafana monitoring tool and Cloud watch alarm its too easy to monitor each and every services.
+
 
                        Step Functions
 		       ================================================
 Step functions manages/orchestrate multiple AWS services to complete the task.
 It provides the visual workflow editor where output of one service is the input of another service.
-If any one of the service got failed, then its having a automatic retry, triggering and tracking capabilities. 	
+If any one of the service got failed, then its having a automatic retry, triggering and tracking capabilities.
 
                        Reactive Programing
                ================================================
 Reactive programing means Asynchronous and Non-blocking process.
 For ex: users sends a request that goes to the database, fetch some results and provide the results to the users.
         But whenever User-1 sends a request in background Thread-1 will be called and sends the request to DB.
-            again    User-2 sends a request in background Thread-2 will be called and sends the request to DB.		
-            again    User-3 sends a request in background Thread-3 will be called and sends the request to DB. 
+            again    User-2 sends a request in background Thread-2 will be called and sends the request to DB.
+            again    User-3 sends a request in background Thread-3 will be called and sends the request to DB.
 	   like that all Threads are busy with the database. and the max Thread pool size is 20.
 		Now suppose  User-21 sends a request then the request will be failed bcz all Threads are busy and max size is 20.
 		So, to solve this type of situation Reactive programing occurs.
@@ -752,45 +815,9 @@ For ex: users sends a request that goes to the database, fetch some results and 
 			         it will tell DB just send a event once your process is done. and Thread-1 is ready to take another
 					 User request.
 
-				 
-
-
 #############################################################
-Advantages/benefits of Microservices
-1. light weight/loosely coupled, (It breaks monolithic application to module/service based. ex: shopping application)
-2. Deployment is easy bcz of light weight.
-3. No need to use external server springboot provides internal tomcat server for running microservices.
-4. Scalibility is easy. (microservices which is having more load will scale those only)
-5. Easy to test due to less dependency
-
-Disadvantages of Microservices
-1. Difficult to maintain if we have 1000 or 10000 of microservices.
-2. Higher chance of communication failure.
-
-#############################################################
-Microservices versioning
-
-There are two ways to version microservices
-1. URI versioning (Ex: https://hostname:8080/v1/inventory)
-2. MediaType versioning (Ex: application/v1+json)
-
-#############################################################
-How to mock static methods, fields, constructors and final class, methods
-Powermock
-@RunWith(PowerMockRunner.class)
-PowerMockito.mockStatic() method
-
-
-#############################################################
-How to handle/increase the performance of the application?
-
-1. Use containerization (Ex: Docker)
-2. Use single database per application (Any DB)
-3. Do proper scalling based on the traffic. (Kubernetes, any load balancer)
-4. Use any Cache mechanism (Redis, inMemory cache) reduce number of calls to DB.
-
-
 Elastic Load Balancing supports the following types of load balancers:
+#############################################################
 
 Application Load Balancers
 Classic Load Balancers
@@ -806,12 +833,19 @@ user request -> Apigateway -> Load balancer -> AWS Lambda (No use of load balanc
                                                               https: call login lambda etc..)
 
 
-
 * Diff between Apigateway and Load balancer
 Apigateway:     single entry point for client which manages API request to the backend services.
                 manages: Authentication, Authorization, routing requests etc.
 Load Balancer:  Manages the load/traffic to different instances.
                 manage: scale up or scale down
+
+        AWS EKS
+AWS EKS is a elastic kubernetes service provided by AWS.
+Its a fully managed service, only we have to create a cluster and run the docker containers.
+
+*Default time of x-ray traces logs.
+ Relative: 6 hrs
+ Customs: 30 days
 
 #############################################################
 How you manage/provide security to the Application
@@ -845,14 +879,13 @@ Use Amazon Cognito user pool
 1. create a User pool, add the user there.
 2. once user sends the request check the user pool and validate the user id and secrets.
 3. once user is validated Amazon cognito will create a id, access and refresh token.
-4. Amazon cognito will send the request with id token to APIgateway.
+4. Amazon cognito will send the request with id token and access token to APIgateway.
 5. APIgateway will use this information and based on the access it will allow user to use AWS resources.
 
 #############################################################
-
 Distributed means: working with different machines/servers.
 Apache Kafka
-
+#############################################################
 Kafka is a messaging system, its a distributed event driven real time event processing system.
 Once producer sends messages to Kafka, messages will be there until consumer will consume the messages. messages will not lost.
 To send/consume the messages we have to use the Topic.
@@ -869,6 +902,9 @@ Offset means: offset[0] position of the message inside the partitions, lets supp
               messages again. here offset will work.
 replica : number of broker/node/instances
 
+* how you created listners to consume messages.
+  used @EnableKafka to the class and used @KafkaListener(topics=" ") to the method
+
 Zookeeper work:
 1. managing kafka cluster
 2. Load balance between partition
@@ -880,6 +916,11 @@ steps:
 3. create topics and partitions.
 
 Provides all information to application.properties file
+
+How to test Kafka in local
+1. add kafka dependencies
+2. create Listners
+3. use embedded kafka(in-memory kafka) which provides an instance of an EmbeddedKafkaBroker class.
 
 ##############################################################
 
@@ -1057,7 +1098,7 @@ Steps to deploy microservices with the help of Docker and Kubernetes?
 3. create k8s.yaml file
 4. build your microservice
    .jar is ready to /target folder
-5. build your dockerfile for creation of docker image (docker build -t your-id/jar-name .)
+5. build your dockerfile for creation of docker image (docker build -t your-id/jar-name:latest .)
    a. it will download the jdk8 library.
    b. copy .jar file from /target folder to current directory .
    c. build the image file.
@@ -1162,17 +1203,9 @@ Steps to deploy microservices with the help of Docker and ECS?
     triggers and perform all the operation mention in the jenkins file.
 
 
-
-
-####################################################################################
-
-        AWS EKS
-AWS EKS is a elastic kubernetes service provided by AWS.
-Its a fully managed service, only we have to create a cluster and run the docker containers.
-
 ##############################################################
-
         Apache Camel
+##############################################################
 Apache Camel is an open-source Enterprise integration pattern framework that helps us quickly integrate systems that produce or consume data.
 its is a rule based routing engine, which supports domain specific (DSL) language.
 its provide the functionality of marshalling and unmarshalling.
@@ -1181,10 +1214,58 @@ Ex: service 1 is providing the output in xml format.
     then how this 2 service will communicate, here Apache camel will work.
 
 
-##############################################################
-*Default time of x-ray traces logs.
- Relative: 6 hrs
- Customs: 30 days
+#########################################################
+Database:
+#########################################################
+1)   what is join?
+Ans: join means, it will join two or more tables based on the matching columns and create a resultant output table.
+     there are two types of Joins:
+	Inner join
+	outer join
+
+	inner join: it will join two table's based on the matching data of the column and create new resultant table.
+	outer join: we have two types of outer join.
+		left outer join
+		right outer join
+
+		left outer join: it will collect all data from left side(first table) if data not matched with right side(second table) it will assign null values.
+		right outer join: it will collect all data from right side(second table) if data not matched with left side(first table) it will assign null values.
+
+
+
+2) what is indexing?
+Ans: Indexing is just like to provide speed up to database engine to retrieve data from the database based on the column, its just like a reference pointer for
+     example (in book we have a reference index on first page. ) it speed-up the process for where and select clause, but its slow down for insert and update statement
+     syntax: Create index index_name on table_name(column_name);
+     type of index:
+     1. unique index (only one column)
+         CREATE UNIQUE INDEX index_name on table_name (column_name);
+     2. composite index (multiple column)
+         CREATE INDEX index_name on table_name (column1, column2);
+     3. implicite index (automaticaly created by the database server when object is created)
+     4. Drop index (An index can be dropped using SQL DROP command. Care should be taken when dropping an index because performance may be slowed or improved)
+        DROP INDEX index_name;
+
+3) what is Casceding?
+Ans: Which means that when a Parent row is deleted (killed), no orphan row should stay alive in the Child table.
+     All children of the parent row are killed (deleted), too. If any of these children has grandchildren (in another table through another foreign key)
+	 and there is ON DELETE CASCADE defined, these should be killed, too (and all descendants, as long as there is a cascade effect defined.
+
+4) Difference between Primary key and Unique key and Foreign key?
+    Primary key:
+	1. cannot contains null values.
+	2. primary key is related with another table as a foreign key.
+    Unique key:
+	1. contains null values.
+	2. unique key is not related with another table as a foreign key.
+    Foreign key:
+	1. accepts more than one null values.
+	2. we can have one or more than one foreign key in a table.
+
+5) Difference between Drop,Truncate and Delete
+Ans: Drop: deletes the whole table along with schema, once done it cannot rollback.
+     Truncate: deletes the data of the table.
+	 Delete: deletes a particular record.
 
 *How networking works?
  If I want to open https://youtube.com then what will happen in background
@@ -1195,11 +1276,191 @@ Ex: service 1 is providing the output in xml format.
  3. Then TLS will call for the encryption
  4. Data access layer will called
  5. and finally sends response to the client.
- 
- * Difference between Stop and Terminate the instances
- Stop:      stopping an instance means we are shutting down the instance for a particular time period.
- Terminate: Terminating an instance means we are deleting the whole configuration,and all the settings.
-            which cannot be recovered. 
 
-* where you store the artifact?
-  Nexus repository
+
+* AWS CLI
+The AWS Command Line Interface (AWS CLI) is an open source tool that enables you to interact with AWS services using command line
+With minimal configuration.
+
+* AWS SAM CLI
+AWS Serverless Application Model (AWS SAM) is an open-source framework for building serverless applications using infrastructure as code.
+SAM template used for CloudFormationTemplate.
+
+
+##########################################################################################################
+AWS best practices:
+##########################################################################################################
+1. Regional services in AWS
+    Service which is having option to select regions.
+    Ex: EC2, Lambda etc..
+
+2. Global services in AWS
+    Service which doesn't have to select regions.
+    Ex: IAM, S3
+
+    Managed services in AWS
+    ELB (Elastic Load Balancer highly available)
+    ECS (Elastic Container service)
+    RDS (Relational Database Service)
+    EKS (Elastic Kubernetes Service )
+
+3. Application should be:
+    Low Latency (deploy to multiple region like London, Mumbai, New York etc..)
+    Highly Available (within a region create multiple data centers)
+
+* If our request is timeout that means security group is not allowing, we have to create new rule in both inbound traffic.
+* 1 public IP address cannot point 2 resources.
+* 1 private Ip address can point 2 resources (bcz private network is accessible internal work only).
+* When we stop EC2 instance will loose the public ip address every time, when we start instance new ip address will assigned to the instances.
+  to overcome of this situation we have Elastic IP address(this address will not change).
+* when we stop EC2 instance will does not loose private ip address, every time when we start the instance private ip address will remain same.
+* In case of Elastic IP address we have to pay for below scenario:
+  Let's suppose we have created Elastic Ip address and we haven't attached to any EC2 instances.
+  Let's suppose we have attached Elastic Ip address to EC2 instance, but EC2 instance is in stopped state.
+  Let's suppose 2 Elastic Ip is attached to EC2 instance and EC2 instance is running.
+* If we don't want Elastic Ip address to EC2 instance then we have to release it. (detach will not work, incase of detach we have to pay, incase of release no need to pay.)
+
+* If we stop the EC2 instance then we will not get charged for EC2 instance but will get charged for Hard disk (storage) which
+  is assign to EC2 instance. so, if EC2 is not longer in use then terminate the instance.
+
+  Load Balancer
+ * Cross zone load balancing: possible to manage loads when 1 EC2 instance is in different zone and another is in diff zone within a same region.
+ * Connection draining: Load balancer will check EC2 health and if health is not ok, then it will terminate that instance, but lets suppose
+                        on that time EC2 is processing some request, so if load balancer will terminate the instance on that time then will loose the data
+                        so to overcome of this situation we have connection draining provide some 300 ms, so that b4 terminating the instance load balancer
+                        will wait that much of time.
+
+* we are using Load balancer with EC2 instance
+    Load balancer is having their own DNS name or url.
+    EC2 is having their own public and private IP's.
+    User is sending req to both load balancer and EC2 url's
+    How will we restrict user to send request only through load balancer?
+      Ans: through security group (restrict all incoming request to EC2 instances through inbound rules)
+
+* what is stickiness?
+  Multiple user is sending request to LB and from LB request is going to many EC2 instances, but if we want to maintain
+  the session from the same user so that his/her request will go to same instance everytime, will do stickiness enable.
+
+* Static/Elastic Ip is only supported by Network load balancer
+* Network load balancer does not work for lambda.
+
+* Auto Scaling
+  How Auto Scaling knows load of CPU > 80 or CPU < 40 to increase or decrease the EC2 instances?
+     Ans: Cloud watch alarms do the monitoring and notify to Auto Scaling group.
+
+* Every 1 min Auto Scaling load is increasing and decreasing then is it worth to add or remove EC2 instances frequently?
+     Ans: for this we have "cool down time" option in Auto Scaling, provide some 300 ms. so that ASG will do the changes accordingly.
+
+* If application is deployed in single region then ELB is good to handle the load.
+* If application is deployed in multiple region then ELB alone will not give proper load balancing we need Route53 also.
+
+
+* Elastic Network Interface (ENI), ENI provides the public, private ip's to EC2 instances.
+  Hot attach: attaching ENI when EC2 instance is running.
+  Warm attach: attaching ENI when EC2 instance is stopped.
+  cold attach: attaching ENI at launch time of EC2 instance.
+
+* How can we create two private ip's for EC2 instance?
+  with the help of ENI.
+
+* Flexible and most expensive: on-demand instances
+* Least expensive            : spot instances
+
+* For secure Https connection we need to install SSL/TLS certificate on Server..
+  In AWS we have to add that certificate to AWS certificate manager.
+  If we r using ELB then X.509 certificate is required (SSL/TLS certificate)
+
+* API keys: lets suppose we have multiple clients, so to know a particular request is coming from which client will
+            assign different keys to the client.
+* Canary deployment: provide some % to dev deployment and some to prod deployment
+
+* what is static application or static web hosting
+    static application is an application which uses html, CSS, javascript etc and runs on web browser.
+    server side component is not needed here, (no java code, python code is needed)
+
+* when we make object lock in S3, it automatically enables versioning also.
+
+* IAM Role: Allow AWS services to perform action on your behalf
+            create a role->add policies->attach to EC2 (so that EC2 will connect to S3)
+            benefit: while using role, no need to provide access key and secret key.
+
+
+When to choose which DB?
+Relational database RDS: Predefined schema, too many online transaction. too many data reads, updates and deletes
+                           use cases: e-commerce, banking, CRM, ERP.
+                           DB: mysql, oracle, sql server, etc..
+                           AWS side: Amazon RDS supports(Amazon aurora, postgres sql, mysql, oracle, sql server)
+
+Document database : Schema less, structured data, the way your application needs it.
+                      use cases: catalog, content management, user profiles.
+                      DB: mongo DB.
+                      AWS side: Amazon Dynamo DB
+
+key value database : Schema less, structured data.
+                       use cases: gaming application, shopping cart, session stores, very high traffic web apps.
+                       AWS side: Amazon Dynamo DB.
+
+Graph database : store and navigate data with complex relationships.
+                       use cases: social networking (Twitter, Facebook, Fraud detection)
+                       AWS side: Amazon neptune
+
+In-memory database: getting data faster
+                       use cases: caching, gaming leader board, session management, geospatical application (Maps)
+                       AWS side: Amazon Elasticache (combination of both Redis and memcache)
+
+* How to connect RDS database from EC2 instance?
+ create a database
+ create a EC2 instance
+ install database client in EC2 instance (mysql, oracle etc..)
+ execute command to configure hostname, username, password (get it from AWS database console) to EC2 for connecting DB
+ goto databse security group and allow inbound traffic from EC2 security group
+ execute command to create and insert table to EC2 instance.
+
+ * Synchronous vs Asynchronous
+ Synchronous: one service is dependent on another service. If any one of the service is down other service will not in use.
+              tightly coupled
+ Asynchronous: All the services are independent, If any one of the service is down other service will still work.
+               loosely coupled
+               ex: use SNS, SQS etc..
+
+ * Message processing in SQS:
+ 1. Producer produces the messages to SQS, Producer will get the messageId to track the messages.
+ 2. Consumer1 started consuming the messages, Consumer1 will get the message handle receipt. till the time consumer1 is
+    processing the messages SQS will hold that particular message and that message is not visible for other consumer.
+ 3. If Consumer1 successfully processed that message, then Consumer1 will send message handle receipt to SQS to delete that message from the queue.
+ 4. If Consumer1 failed to processed that message for a given time period, that message is availaible for other consumers.
+ 5. If other consumer also doesn't processed that message for max retention time period, that message will goto Dead letter queue.
+
+ * Dead letter queue: all failed messages are placed inside DLQ.
+
+ * How to get data from on-premises to S3?
+ 1. Amazon storage gateway.
+ 2. Amazon Kinesis
+ 3. Amazon snowball
+
+ * How u make a connection to transfer data from on-premises to AWS?
+ 1. AWS VPN
+ 2. AWS Direct Connection.
+
+ * How to connect multiple VPC with on-premises?
+ AWS Transit Gateway
+
+ * How to connect diff VPC from diff or same region?
+ use VPC peering.
+
+ useful links:
+ https://aws.amazon.com/architecture
+ https://aws.amazon.com/faqs
+ https://aws.amazon.com/certification
+
+
+
+
+
+
+
+
+
+
+
+
