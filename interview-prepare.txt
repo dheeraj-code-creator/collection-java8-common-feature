@@ -28,6 +28,13 @@ Enumerator: Doesn't have remove() method.
 12) Difference between Arraylist and LinkedList?
 13) Design pattern (Factory DP, Singelton DP, Builder DP, Prototype DP, Aggregator DP)
 
+* Diff between Process blocked and Thread blocked?
+Process: Multiple thread makes a single process.
+         If a process is blocked, means all the thread inside the process is also blocked. (whole process is waiting for I/O operation, or Network operation.)
+
+Thread: Runs single thread
+        Only single thread is blocked, other threads inside the same process can continue.
+
 * What will happen If we use clone() method with singelton object
   It will break singelton pattern.
   to avoid this we have to override Object class clone method and we have to throw cloneNotSupportedException
