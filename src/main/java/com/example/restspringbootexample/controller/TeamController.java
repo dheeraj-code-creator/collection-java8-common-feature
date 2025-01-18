@@ -1,5 +1,6 @@
 package com.example.restspringbootexample.controller;
 
+import com.example.restspringbootexample.service.TeamCombinationPointsService;
 import com.example.restspringbootexample.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +18,17 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private TeamCombinationPointsService teamCombinationPointsService;
+
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
+    }
+
+    @GetMapping("/team-combination-with-points")
+    public ResponseEntity<String> generateCombinations() {
+        String filePath = teamCombinationPointsService.generateCombinations();
+        return ResponseEntity.ok("Excel file generated successfully at: " + filePath);
     }
 
     @GetMapping("/generate-teams")

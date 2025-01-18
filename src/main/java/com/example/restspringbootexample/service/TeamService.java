@@ -21,8 +21,8 @@ public class TeamService {
     public byte[] generateTeamsExcel() throws IOException {
         // total number of players from both the teams
         String[] players = {
-                "Mandhana", "Pratika", "Harleen", "Rodrigues", "Tejal", "Richa", "Deepti", "Priya", "Titas", "Satghare",
-                "Thakor", "Delany", "Dempsey", "Kelly", "Orla"
+                "Behrendroff", "Thornton", "Morris", "Connolly", "Agar", "Fanning", "Lloyd", "Ollie", "Carey", "Dogget",
+                "Matthew", "Ross", "Darcy", "Turner", "Hobson"
         };
 
         // final team size
