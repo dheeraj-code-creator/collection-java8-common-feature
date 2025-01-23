@@ -36,10 +36,16 @@ public class EmployeeDemo {
         /*Map<Double, Long> collect1 = employeeList.stream().collect(Collectors.groupingBy(k -> k.getSalary(), Collectors.counting()));
         collect1.entrySet().forEach(System.out::println);*/
 
-        // print employee id based on department
+        // print employee id based on department name
+
+        Map<String, List<Integer>> collect4 = employeeList.stream()
+                .collect(Collectors.groupingBy(k -> k.getDepartment().getDepartmentName(), Collectors.mapping(k -> k.getId(), Collectors.toList())));
+
         Map<Department, List<Integer>> collect = employeeList.stream()
                 .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.mapping(Employee::getId, Collectors.toList())));
         collect.entrySet().forEach(System.out::println);
+
+
 
 
 

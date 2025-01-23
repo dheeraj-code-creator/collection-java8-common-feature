@@ -11,6 +11,27 @@ integration of various AWS services.
 migration of Legacy application on cloud.
 
 1) HashMap implementation
+     Can we use an Employee custom class as a key.
+Ans: Yes, we can use but we have to make Employee class as immutable class.
+     If we not make immutable then, when we update the existing Employee object on that time there is a chance will lost that object forever
+     due to hashcode changes. (when we update the key hashcode will be change.)
+     only solution is make the class immutable.
+
+     What will happen If we don't use Hashcode and equals method
+      will get different values for different object, bcz hashmap displays data based on the hashcode, if both are not overridden then
+      there is a chance will get in-appropriate output.
+
+     What will happen If we use only Hashcode but not equals method
+      will get different outputs, bcz we are not checking key equality, for example there are 2 keys "abc", "ABC" if we not override equals method
+      then there is a chance will get different output. bcz hashcode of "abc" is different and "ABC" is different.
+
+     What will happen If we use only equals but not Hashcode method
+      this will also written in-correct output, for ex:
+      map.put(person, "abc")
+      map.put(person, "abc")
+      if we print map.size it will print: 1 bcz here hashcode is not overriden.
+
+
 2) Difference between Iterator and Enumerator
 Difference between Iterator and Enumerator
 iterator: having both methods next() and remove.
@@ -222,10 +243,18 @@ Q. Contract of hashcode
 Ans: 1) If two objects are equal, then they must have the same hash code.
      2) If two objects have the same hash code, they may or may not be equal.
 
+* what is difference between HashMap and TreeMap?
+Ans: HashMap: contains one null keys.
+              doesn't specified the order, it populates data in unstructured way.
+     TreeMap: doesn't contains any null keys
+              It populates data in a structured way.
+
 17) what is difference between concurrent HashMap and HashTable?
 Ans: both are thread safe, but main difference is:
      HashTable: make lock for all the Objects.
 	 ConcurrentHashMap:it will divide the code in different segments, and then make the lock for few objects.
+
+
 
 21) What is Collision
     Collision means two object have the same hashcode, and both the key wil try to store in the
@@ -372,8 +401,11 @@ Choreography:  Loosly couple, Asynchronous process.
                 Ex: event driven system, Producer will produce the messages to Kafka and based on the messages types consumer will
                     come and consume the messages.
                     ex: No dependency
-                        If Payment service is successful it will send payment event to Kafka, and Consumer service will consume this event
-                        and complete the order.
+                        Once food is prepared staff member will provide those food to the reception, delievery person will get the
+                        notification and one by one they will take the food and deliever it to the customer.
+                        staff (Producer)
+                        reception (Kafka)
+                        delievery person (Consumer)
 
 How you manage all microservices response?
 Ans: Aggregator DP (APIResponse class)

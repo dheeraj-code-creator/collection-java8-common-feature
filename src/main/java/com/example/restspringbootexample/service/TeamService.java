@@ -21,7 +21,7 @@ public class TeamService {
     public byte[] generateTeamsExcel() throws IOException {
         // total number of players from both the teams
         String[] players = {
-                "Behrendroff", "Thornton", "Morris", "Connolly", "Agar", "Fanning", "Lloyd", "Ollie", "Carey", "Dogget",
+                "Behrendroff", "Scott", "Morris", "Connolly", "Agar", "Fanning", "Baardman", "Hardie", "Carey", "Dogget",
                 "Matthew", "Ross", "Darcy", "Turner", "Hobson"
         };
 

@@ -29,6 +29,16 @@ public class TeamController {
     public ResponseEntity<String> generateCombinations() {
         String filePath = teamCombinationPointsService.generateCombinations();
         return ResponseEntity.ok("Excel file generated successfully at: " + filePath);
+
+    }
+
+    @PostMapping("/search-team-with-points")
+    public String searchTeam(
+            @RequestParam String captain,
+            @RequestParam String viceCaptain,
+            @RequestBody(required = false) List<String> players
+    ) {
+        return teamCombinationPointsService.searchTeam(captain, viceCaptain, players);
     }
 
     @GetMapping("/generate-teams")

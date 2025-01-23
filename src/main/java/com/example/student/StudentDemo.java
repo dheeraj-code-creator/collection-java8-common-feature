@@ -1,8 +1,5 @@
 package com.example.student;
 
-import org.springframework.http.converter.json.GsonBuilderUtils;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +52,7 @@ public class StudentDemo {
         // print only names and marks for all grades.
         //studentList.stream().forEach(k-> System.out.println("Name =" + k.getName() + " , " + "Marks = " + k.getMarks()));
 
-        // print names and marks based on the grades, and also add bonus +5 to marks.
+        // print names and marks based on the grades, and also add bonus +5 marks.
         /*studentList.stream().filter(k->k.getGrade().equals("A")).collect(Collectors.toList())
                 .forEach(
                         k->{
@@ -65,6 +62,16 @@ public class StudentDemo {
                             System.out.println("Name = " + k.getName() + " , " + "Marks = " + k.getMarks());
                         }
                 );*/
+
+        // add bonus +5 marks to only grade A and return the object.
+        List<Student> std = studentList.stream().map(k -> {
+            if (k.getGrade().equals("A")) {
+                int result = k.getMarks() + 5;
+                k.setMarks(result);
+            }
+            return k;
+        }).collect(Collectors.toList());
+        System.out.println(std);
 
 
         // experiment with foreach amd map method

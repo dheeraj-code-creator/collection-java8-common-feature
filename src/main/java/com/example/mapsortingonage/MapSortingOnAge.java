@@ -22,7 +22,11 @@ public class MapSortingOnAge {
         // map.entrySet().forEach(k-> System.out.println(k.getValue()));
 
         // sort map based on the age
+        // increasing order
         map.entrySet().stream().sorted(Comparator.comparing(k->k.getValue().getAge())).forEach(System.out::println);
+
+        // decreasing order
+        map.entrySet().stream().sorted((o1,o2)->o2.getValue().getAge() - o1.getValue().getAge()).forEach(System.out::println);
 
 
 

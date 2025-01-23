@@ -33,13 +33,14 @@ public class TeamCombinationPointsService {
                     '}';
         }
     }
+    List<String[]> allConfigurations = new ArrayList<>();
 
     public String generateCombinations() {
         // Define 22 players with points
         List<Player> players = Arrays.asList(
-                new Player("Behrendroff", 515), new Player("Thornton", 390), new Player("Morris", 389),
+                new Player("Behrendroff", 515), new Player("Scott", 105), new Player("Morris", 389),
                 new Player("Connolly", 579), new Player("Agar", 343), new Player("Fanning", 78),
-                new Player("Lloyd", 489), new Player("Ollie", 337), new Player("Carey", 53),
+                new Player("Hardie", 315), new Player("Baardman", 56), new Player("Carey", 53),
                 new Player("Dogget", 180), new Player("Matthew", 478), new Player("Ross", 391),
                 new Player("Darcy", 417), new Player("Turner", 386), new Player("Hobson", 253),
                 new Player("Ram", 100), new Player("Shyam", 101), new Player("Dheeraj", 102),
@@ -57,9 +58,8 @@ public class TeamCombinationPointsService {
         topPlayers.stream().forEach(System.out::println);
 
         // Generate all combinations of 11 players out of 22 players
-        List<String[]> allConfigurations = new ArrayList<>();
-        int sno = 1;
 
+        int sno = 1;
         for (Player captain : topPlayers) {
             for (Player viceCaptain : topPlayers) {
                 if (!captain.equals(viceCaptain)) {
@@ -90,6 +90,31 @@ public class TeamCombinationPointsService {
 
         // Write to Excel
         return writeToExcel(allConfigurations, "TopTeamCombinations.xlsx");
+    }
+
+    public String searchTeam(String captain, String viceCaptain, List<String> playerNames) {
+        for (String[] team : allConfigurations) {
+            String serialNumber = team[0]; // Get SNo
+            String teamCaptain = team[1];
+            String teamViceCaptain = team[2];
+
+            // Check if captain and vice-captain match
+            if (teamCaptain.equalsIgnoreCase(captain) && teamViceCaptain.equalsIgnoreCase(viceCaptain)) {
+                List<String> teamPlayers = new ArrayList<>(List.of(team));
+                teamPlayers.remove(0); // Remove SNo
+                String totalPoints = teamPlayers.remove(teamPlayers.size() - 1); // Remove total points
+                teamPlayers.remove(0); // Remove captain
+                teamPlayers.remove(0); // Remove vice-captain
+
+                // Check if all provided player names match the team players
+                if (playerNames == null || teamPlayers.containsAll(playerNames)) {
+                    return "Team found at SNo: " + serialNumber + "\n" +
+                            "Details: Captain: " + teamCaptain + ", Vice-Captain: " + teamViceCaptain + ", Players: " + teamPlayers + "\n" +
+                            "Total Points: " + totalPoints;
+                }
+            }
+        }
+        return "No matching team found!";
     }
 
     private String writeToExcel(List<String[]> data, String fileName) {
