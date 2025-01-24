@@ -38,27 +38,40 @@ public class TeamCombinationPointsService {
     public String generateCombinations() {
         // Define 22 players with points
         List<Player> players = Arrays.asList(
-                new Player("Behrendroff", 515), new Player("Scott", 105), new Player("Morris", 389),
-                new Player("Connolly", 579), new Player("Agar", 343), new Player("Fanning", 78),
-                new Player("Hardie", 315), new Player("Baardman", 56), new Player("Carey", 53),
-                new Player("Dogget", 180), new Player("Matthew", 478), new Player("Ross", 391),
-                new Player("Darcy", 417), new Player("Turner", 386), new Player("Hobson", 253),
-                new Player("Ram", 100), new Player("Shyam", 101), new Player("Dheeraj", 102),
-                new Player("kumar", 103), new Player("mayne", 104), new Player("banti", 105),
-                new Player("alice", 106)
+                new Player("Kerr", 80), //1
+                new Player("Manenti", 54),  //2
+                new Player("Phillipe", 100), //3
+                new Player("Hatzoglou", 70),    //4
+                new Player("Henriques", 135),    //5
+                new Player("Jordan", 101),   //6
+                new Player("Wade", 135), //7
+                new Player("Nikhil", 184),    //8
+                new Player("Ellis", 101),   //9
+                new Player("Jack", 245),  //10
+                new Player("Perry", 58),    //11
+                new Player("Tim", 147),  //12
+                new Player("Jewell", 78), //13
+                new Player("Meredith", 135),    //14
+                new Player("Chohan", 60),    //15
+                new Player("Gannon", 45),  //16
+                new Player("Shaw", 28),    //17
+                new Player("Mcdermott", 147),  //18
+                new Player("Owen", 78), //19
+                new Player("Patterson", 55),    //20
+                new Player("Silk", 101),    //21
+                new Player("Dwarshuis", 135)     //22
         );
 
-        // Sort players by points in descending order
+        // Sort 22 players by points in descending order
         players.sort(Comparator.comparingInt(player -> -player.points));
         players.stream().forEach(System.out::println);
 
-        // Select any number of players out of 22 players, (Currently I am taking all 22 players)
-        List<Player> topPlayers = players.subList(0, 22);
+        // Select 11 players out of 22 players based on highest points
+        List<Player> topPlayers = players.subList(0, 11);
         System.out.println("#####################################");
         topPlayers.stream().forEach(System.out::println);
 
-        // Generate all combinations of 11 players out of 22 players
-
+        // Generate all combinations of 11 players
         int sno = 1;
         for (Player captain : topPlayers) {
             for (Player viceCaptain : topPlayers) {

@@ -19,10 +19,20 @@ public class TeamService {
 
     // provide the players input
     public byte[] generateTeamsExcel() throws IOException {
-        // total number of players from both the teams
+        // total number of players from both the teams,
+        // Max we can take only 15 players, for now I am taking only 11 players
         String[] players = {
-                "Behrendroff", "Scott", "Morris", "Connolly", "Agar", "Fanning", "Baardman", "Hardie", "Carey", "Dogget",
-                "Matthew", "Ross", "Darcy", "Turner", "Hobson"
+                "McDermott",  //1
+                "Shaw",   //2
+                "Silk", //3
+                "Owen",    //4
+                "Jewel",    //5
+                "Perry",     //6
+                "Dwarshuis",   //7
+                "Gannon",    //8
+                "Chohan",   //9
+                "Meridith", //10
+                "Patterson"      //11
         };
 
         // final team size
@@ -62,7 +72,7 @@ public class TeamService {
 
         // Header row
         Row header = sheet.createRow(0);
-        String[] headers = {"Serial Number", "Captain", "Vice-Captain", "Player3", "Player4", "Player5", "Player6",
+        String[] headers = {"SNo", "Captain", "Vice-Captain", "Player3", "Player4", "Player5", "Player6",
                 "Player7", "Player8", "Player9", "Player10", "Player11"};
         for (int i = 0; i < headers.length; i++) {
             header.createCell(i).setCellValue(headers[i]);

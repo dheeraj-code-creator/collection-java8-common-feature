@@ -63,7 +63,7 @@ public class TeamController {
             @RequestBody List<String> otherPlayers) {
         Integer serialNumber = teamService.searchTeam(captain, viceCaptain, otherPlayers);
         if (serialNumber != null) {
-            return ResponseEntity.ok("Team found with serial number: " + serialNumber);
+            return ResponseEntity.ok("Team found with SNo: " + serialNumber);
         } else {
             return ResponseEntity.ok("Team not found in the generated combinations.");
         }
