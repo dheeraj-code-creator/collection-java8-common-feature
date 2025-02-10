@@ -38,28 +38,28 @@ public class TeamCombinationPointsService {
     public String generateCombinations() {
         // Define 22 players with points
         List<Player> players = Arrays.asList(
-                new Player("Kerr", 80), //1
-                new Player("Manenti", 54),  //2
-                new Player("Phillipe", 100), //3
-                new Player("Hatzoglou", 70),    //4
-                new Player("Henriques", 135),    //5
-                new Player("Jordan", 101),   //6
-                new Player("Wade", 135), //7
-                new Player("Nikhil", 184),    //8
-                new Player("Ellis", 101),   //9
-                new Player("Jack", 245),  //10
-                new Player("Perry", 58),    //11
-                new Player("Tim", 147),  //12
-                new Player("Jewell", 78), //13
-                new Player("Meredith", 135),    //14
-                new Player("Chohan", 60),    //15
-                new Player("Gannon", 45),  //16
-                new Player("Shaw", 28),    //17
-                new Player("Mcdermott", 147),  //18
-                new Player("Owen", 78), //19
-                new Player("Patterson", 55),    //20
-                new Player("Silk", 101),    //21
-                new Player("Dwarshuis", 135)     //22
+                new Player("S Yadav", 29), //1
+                new Player("B Duckett", 24),  //2
+                new Player("P Salt", 27), //3
+                new Player("S Samson", 87),    //4
+                new Player("A Sharma", 170),    //5
+                new Player("J Buttler", 159),   //6
+                new Player("A Patel", 126), //7
+                new Player("L Livingstone", 47),    //8
+                new Player("A Rashid", 78),   //9
+                new Player("V Chakravarthy", 173),  //10
+                new Player("M Wood", 48),    //11
+                new Player("A Singh", 94),  //12
+                new Player("J Archer", 115), //13
+                new Player("R Bishnoi", 31),    //14
+                new Player("B Carse", 149),    //15
+                new Player("H Pandya", 98),  //16
+                new Player("J Overton", 40),    //17
+                new Player("W Sundar", 70),  //18
+                new Player("T Verma", 142), //19
+                new Player("H Brook", 53),    //20
+                new Player("J Smith", 37),    //21
+                new Player("D Jurel", 22)     //22
         );
 
         // Sort 22 players by points in descending order

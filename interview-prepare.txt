@@ -1316,6 +1316,15 @@ Ans: Drop: deletes the whole table along with schema, once done it cannot rollba
  4. Data access layer will called
  5. and finally sends response to the client.
 
+SCRUM/AGILE
+PI planning: plan for next 3 months requirements and put it to Backlog
+(Program Increment)
+Sprint planing: pull stories from Backlog and put it to sprint, then assign those to the team members.
+Sprint retrospective: what went well, what needs to improve
+
+PO (Product owner): who maximizes the value of product, interaction with the client and get the deatils of the product.
+BA (Business analyst): Who understand the business and convert that requirement to the user stories.
+
 
 * AWS CLI
 The AWS Command Line Interface (AWS CLI) is an open source tool that enables you to interact with AWS services using command line
