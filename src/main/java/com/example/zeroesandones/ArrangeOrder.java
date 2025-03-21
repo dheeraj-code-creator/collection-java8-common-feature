@@ -9,9 +9,13 @@ public class ArrangeOrder {
     public static void main(String[] args) {
 
         // by java 8
+        // increasing order
         List<Integer> list = Arrays.asList(0,1,0,1,0,1,0,1);
         List<Integer> result = list.stream().sorted().collect(Collectors.toList());
         System.out.println(result);
+
+        // decreasing order
+        // list.stream().sorted((o1,o2)->o2.compareTo(o1)-o1.compareTo(o2)).forEach(System.out::println);
 
         System.out.println("###############################################################");
 

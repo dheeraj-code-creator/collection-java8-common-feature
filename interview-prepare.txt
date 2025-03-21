@@ -98,6 +98,10 @@ Thread: Runs single thread
 4. Use any Cache mechanism (Redis, inMemory cache) reduce number of calls to DB.
 
 
+Difference between JUnit vs Mockito
+Junit: it helps to write the test and run the test.
+Mockito: it helps to create mock objects.
+
 * How to mock static methods, fields, constructors and final class, methods
 Powermock
 @RunWith(PowerMockRunner.class)
@@ -283,7 +287,15 @@ Optional
 TryWithResource
 
 Q. What is functional interface
-Ans: A interface which is having only one abstract method is called functional interface.
+Ans: A interface which is having only 1 abstract method is called functional interface.
+     why only 1 abstract method?
+     bcz a lambda function provides the implementation of only 1 method at a time. if we provide more than 1 abstract metod compiler
+     will confuse which method we want to call, bcz while writing the lambda expression we are not calling the method name.
+
+     what will happen if we provide more than 1 abstract method?
+     it gives compile time error.
+
+     If we create normal interface and provides more than 1 abstract method then it will work as normal interface((we can't use lambda expression here.))
 
 Q. how many default and static method we can create in functional interface?
 Ans: 1 or more than 1
@@ -437,10 +449,17 @@ Disadvantages of Microservices
 
 Microservices versioning
 
-There are two ways to version microservices
+There are three ways to version microservices
 1. URI versioning (Ex: https://hostname:8080/v1/inventory)
-2. MediaType versioning (Ex: application/v1+json)
+2. MediaType versioning (Ex: produces = MediaType.application/v1+json)
+3. Header versioning (header = "X-API-VERSION\v1")
 
+@PostMapping(value=/v1/add-user) uri versioning
+@PostMapping(value=/add-user, produces = MediaType.application/v1+json) MediaType versioning
+@PostMapping(value=/add-user, header = "X-API-VERSION\v1") Header versioning
+public User addUser(@RequestBody User user){
+
+}
 
 Microservice Exception handling:
 Example:
@@ -553,6 +572,42 @@ Ans: @Controller: used in spring MVC controller, here we have to use @ResponseBo
 					Scalibility
 					Maintainbility
 					portablity
+
+
+Reactive Programing/Asynchronous/Non-blocking process in Microservices
+================================================
+Reactive programing means Asynchronous and Non-blocking process.
+For ex: users sends a request that goes to the database, fetch some results and provide the results to the users.
+        But whenever User-1 sends a request in background Thread-1 will be called and sends the request to DB.
+            again    User-2 sends a request in background Thread-2 will be called and sends the request to DB.
+            again    User-3 sends a request in background Thread-3 will be called and sends the request to DB.
+	   like that all Threads are busy with the database. and the max Thread pool size is 20.
+		Now suppose  User-21 sends a request then the request will be failed bcz all Threads are busy and max size is 20.
+		So, to solve this type of situation Reactive programing occurs.
+		      here   User-1 sends a request in background Thread-1 will be called and it will not wait for DB response,
+			         it will tell DB just send a event once your process is done. and Thread-1 is ready to take another
+					 User request.
+
+In Microservices single thread will do all the operation. for ex
+ t1->controller->service->repository->DB  it all takes so much time bcz single thread is doing all this opertion. evern other threads
+ are free, but still single thread is doing all this operation.
+ so, to overcome of this situation we have CompletableFuture class where we can use @Asyn annotation to the methods. so that thread
+ will do the operation parallelly.
+
+ controller
+ public CompletableFuture<List<UserDto>> getUserByName(@PathVariable String firstName) {
+     return userService.getUserByNameAsync(firstName);
+ }
+
+ service
+ @Async
+ public CompletableFuture<List<UserDto>> getUserByNameAsync(String firstName){
+         return urs.stream().map(this::userToUserDto).collect(Collectors.toList());
+ }
+
+ repository
+ @Async
+ public CompletableFuture<List<User>> findAllByLastName(String name);
 
 
 ###########################################################
@@ -840,19 +895,6 @@ Step functions manages/orchestrate multiple AWS services to complete the task.
 It provides the visual workflow editor where output of one service is the input of another service.
 If any one of the service got failed, then its having a automatic retry, triggering and tracking capabilities.
 
-                       Reactive Programing
-               ================================================
-Reactive programing means Asynchronous and Non-blocking process.
-For ex: users sends a request that goes to the database, fetch some results and provide the results to the users.
-        But whenever User-1 sends a request in background Thread-1 will be called and sends the request to DB.
-            again    User-2 sends a request in background Thread-2 will be called and sends the request to DB.
-            again    User-3 sends a request in background Thread-3 will be called and sends the request to DB.
-	   like that all Threads are busy with the database. and the max Thread pool size is 20.
-		Now suppose  User-21 sends a request then the request will be failed bcz all Threads are busy and max size is 20.
-		So, to solve this type of situation Reactive programing occurs.
-		      here   User-1 sends a request in background Thread-1 will be called and it will not wait for DB response,
-			         it will tell DB just send a event once your process is done. and Thread-1 is ready to take another
-					 User request.
 
 #############################################################
 Elastic Load Balancing supports the following types of load balancers:
@@ -889,9 +931,14 @@ Its a fully managed service, only we have to create a cluster and run the docker
 #############################################################
 How you manage/provide security to the Application
 
-1. Use APIGateway with Lambda Authorizer
-2. Use OAUTH2
-3. Use Amazon Cognito user pool
+1. Authentication and Authorization
+    Use APIGateway with Lambda Authorizer
+    Use OAUTH2
+    Use Amazon Cognito user pool
+
+2. Proper User input validation
+3. Proper encryption of sensitive data.
+4. Pen testing
 
 Use APIGateway with Lambda Authorizer
 Authentication:

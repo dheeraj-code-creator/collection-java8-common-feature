@@ -22,17 +22,17 @@ public class TeamService {
         // total number of players from both the teams,
         // Max we can take only 15 players, for now I am taking only 11 players
         String[] players = {
-                "S Gill",  //1
-                "V Kohli",   //2
-                "H Pandya", //3
-                "R Jadeja",    //4
-                "M Shami",    //5
-                "B Duckett",     //6
-                "H Brook",   //7
-                "L Livingstone",    //8
-                "B Carse",   //9
-                "P Salt", //10
-                "J Archer"      //11
+                "S Mandahana",  //1
+                "E Perry",   //2
+                "G Harris", //3
+                "G Voll",    //4
+                "K Navgire",    //5
+                "R Ghosh",     //6
+                "D Sharma",   //7
+                "G Wareham",    //8
+                "C Henry",   //9
+                "S Ecclestone", //10
+                "K Gaud"      //11
         };
 
         // final team size

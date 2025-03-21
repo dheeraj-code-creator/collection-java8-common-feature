@@ -6,7 +6,7 @@ public class FibonacciAndPrimeNumber {
 
     public static void main(String[] args) {
 
-        // find out fibonacci of 4
+        // find out fibonacci of 5
         int number =5;  // number = [1,5]
 
         int asInt = IntStream.rangeClosed(1, number).reduce((a, b) -> a * b).getAsInt();
